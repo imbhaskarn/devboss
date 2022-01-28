@@ -1,0 +1,36 @@
+<section class="nav-wrap">
+  <nav class="navbar">
+    <div class="logo">
+      <h1>Bhaskar</h1>
+    </div>
+    <div class="navlist-wrap">
+      <ul class="navlist">
+        <li class="navlist-item"><a href="#" class="nav-link">Home</a></li>
+        <li class="navlist-item"><a href="#" class="nav-link">Portfolio</a></li>
+        <li class="navlist-item"><a href="#" class="nav-link">Projects</a></li>
+        <li class="navlist-item"><a href="#" class="nav-link">About</a></li>
+        </li>
+       
+        <% if(typeof user !=='undefined' ){ %>
+          <li class="navlist-item user">
+            <a href="/user/<%= user.id %> "> <i class="far fa-user">
+                <%= user.name %>
+              </i> </a>
+          </li>
+          <% } else { %>
+            <li class="navlist-item">
+              <span class="get-started">
+                <a href="/auth/register"> Sign Up</a>
+              </span>
+            </li>
+            <li class="navlist-item">
+              <span class="get-started">
+                <a href="/auth/login">
+                  <span> Log In</span>
+                </a> </span>
+              <% } %>
+
+      </ul>
+    </div>
+  </nav>
+</section>

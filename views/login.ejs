@@ -1,0 +1,8 @@
+<section class="register-wrap">
+  <%- include('./partials/error.ejs') %>
+    <form action="/auth/login" method="post" class="register-form">
+      <input type="text" name="email" id="email" placeholder="Email" />
+      <input type="text" name="password" id="password" placeholder="Password" />
+      <button type="submit">Login</button>
+    </form>
+</section>

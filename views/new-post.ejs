@@ -1,0 +1,19 @@
+<section class="form-wrap">
+  <form action="/blog/new" method="post" enctype="multipart/form-data">
+    <div class="input-wrap">
+      Post Title: <br />
+      <input type="text" class="title" name="title" required />
+    </div>
+    <div class="input-wrap">
+      Cover Photo: <br />
+      <input type="file" id="cover" accept="image/*" class="cover" name="cover" required />
+    </div>
+    <div class="input-wrap">
+      Content: <br />
+      <textarea name="content" id="mytextarea" cols="30" rows="10" required></textarea>
+    </div>
+    <div class="input-wrap">
+      <button type="submit">Post</button>
+    </div>
+  </form>
+</section>
