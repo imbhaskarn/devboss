@@ -6,7 +6,6 @@ const passport = require('passport')
 const authRoute = require('./routes/auth.route')
 const flash = require('connect-flash');
 const session = require('express-session')
-const conn = require("./model/db");
 const blogRoute = require('./routes/blog.route')
 require('./auth/passport.config')
 app.use(express.static("public"));

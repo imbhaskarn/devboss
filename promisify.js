@@ -12,3 +12,5 @@ const queryAsync = (sql, arg) => {
 module.exports = {
     queryAsync
 }
+
+

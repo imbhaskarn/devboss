@@ -171,3 +171,15 @@ button {
  font-family: inherit;
  text-transform: capitalize;
 }
+.cover-wrap{
+  text-align: center;
+  color: #fff;
+  cursor:pointer;
+  padding: 15px 25px;
+  background: #111111;
+}
+.cover{
+ visibility: hidden;
+ width: 0px;
+ height: 0px;
+}
