@@ -8,14 +8,14 @@ const dbconfig = {
   port: process.env.PORT,
   database: 'mydb'
 };
-console.log(dbconfig)
 
 let conn = mysql.createConnection(dbconfig);
+
 conn.connect((err) => {
   if (err) {
     return console.log(err)
   }
-  return console.log('connect to database!')
+  return console.log('connected to database!')
 })
 
 module.exports = conn;

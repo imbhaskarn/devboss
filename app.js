@@ -23,9 +23,9 @@ app.use(session({
     maxAge: 60 * 60 * 24 * 7
   }
 }));
-app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 app.use(expressLayouts);
 app.set("view engine", "ejs");
 

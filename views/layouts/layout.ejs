@@ -2,24 +2,44 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://kit.fontawesome.com/bbcd5971df.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.tiny.cloud/1/yglmschofsf91vy1n2esfhhtre4zuzrvs09u2opug9w34quc/tinymce/5/tinymce.min.js"
-    referrerpolicy="origin"></script>
-  <script src="/js/index.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css" />
-  <title>AXONE || HOME</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/f5bd009f77.js" crossorigin="anonymous"></script>
+    <title>Just Blog</title>
 </head>
 
 <body>
-  <%- include('../partials/nav.ejs') %>
-    <%- include('../partials/header.ejs') %>
-        <%- body %>
-     
+    <header class="text-dark">
+        <%- include('../partials/navbar.ejs') %>
+            <%- include('../partials/header.ejs') %>
+    </header>
+    <%- body %>
+        <footer class="text-center w-100 bg-dark pt-2">
+            <div class="container d-flex justify-content-center p-2">
+                <button type="button" class="btn btn-primary mx-2">
+                    <i class="fab fa-github"></i>
+                </button>
+                <button type="button" class="btn btn-primary mx-2">
+                    <i class="fab fa-instagram"></i>
+                </button>
+                <button type="button" class="btn btn-primary mx-2">
+                    <i class="fab fa-twitter"></i>
+                </button>
+            </div>
+            <!-- Copyright -->
+            <div class="text-center text-info p-3">
+                © 2022 Copyright:
+                <a class="text-info text-decoration-none" href="https://bhaskar.one">Justblog</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
 </body>
+
 </html>

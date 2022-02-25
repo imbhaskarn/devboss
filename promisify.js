@@ -1,16 +1,16 @@
-const conn = require("./model/db");
-const queryAsync = (sql, arg) => {
+const conn = require("./dbConnection/db");
+
+function queryAsync(str, args) {
+
     return new Promise((resolve, reject) => {
-        conn.query(sql, arg, (err, result) => {
+        conn.query(str, args, (err, result) => {
             if (err) {
-                reject(err.message)
+               return reject(err)
             }
-            resolve(result)
+           return resolve(result)
         })
     });
 }
 module.exports = {
     queryAsync
 }
-
-

@@ -1,0 +1,40 @@
+<% if (typeof error !== 'undefined') { %>
+    <% if(error.length> 0) { %>
+        <div class="myalert">
+            <div class="alert alert-success alert-dismissible">
+                <%= error %>
+                    <button type="button" class="btn-close btn-md" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+        <% } %>
+<% } %>
+        <% if (typeof success !='undefined' ) { %>
+            <% if (success.length> 0) { %>
+                <div class="myalert">
+                    <div class="alert alert-success">
+                        <%= success %>
+                            <button type="button" class="btn-close btn-md" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+                <% } %>
+                    <% } %>
+
+                        <% if(typeof errors !='undefined' ) { %>
+                            <% errors.forEach(err=> { %>
+                                <div class="myalert">
+                                    <div class="alert alert-success alert-dismissible">
+                                        <%= err.msg %>
+                                            <button type="button" class="btn-close btn-md"
+                                                data-bs-dismiss="alert"></button>
+                                    </div>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+                                    <% if (typeof logout !='undefined' ) { %>
+                                            <div class="myalert">
+                                                <div class="alert alert-success">
+                                                    <%= logout %>
+                                                        <button type="button" class="btn-close btn-md" data-bs-dismiss="alert"></button>
+                                                </div>
+                                            </div>
+                                                <% } %>

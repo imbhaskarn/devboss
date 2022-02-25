@@ -1,9 +1,59 @@
-<section class="register-wrap">
-  <form action="/user/register" method="post" class="register-form">
-    <input type="text" name="name" id="name" placeholder="Full Name" />
-    <input type="text" name="email" id="email" placeholder="Email" />
-    <input type="text" name="password" id="password" placeholder="Password" />
-    <button type="submit">Register</button>
-  </form>
-</section>
+<div class="container">
+    <div class="row w-lg-75">
+        <div class="col-lg-10 col-xl-9 mx-auto">
+            <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden form-bg">
+                <div class="card-img-left d-none d-md-flex">
+                    <!-- Background image for card set in CSS! -->
+                </div>
+                <div class="card-body p-4 p-sm-5">
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
+                    <%- include('./partials/message.ejs') %>
+                        <hr class="mb-5">
+                        <form action="/auth/register" method="post">
+                            <div class="container-fluid row m-0 justify-content-between">
+                                <div class="form-floating mb-3 col">
+                                    <input type="text" class="form-control" minlength="3" name="fname"
+                                        id="floatingInputUsername" placeholder="fname" required autofocus>
+                                    <label for="floatingInputUsername">First name</label>
+                                </div>
+                                <div class="form-floating mb-3 col">
+                                    <input type="text" class="form-control" minlength="3" name="lname"
+                                        id="floatingInputUsername" placeholder="myusername" required autofocus>
+                                    <label for="floatingInputUsername">Last name</label>
+                                </div>
+                            </div>
+                            <div class="container-fluid row m-0 justify-content-between">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" name="username" minlength="3" id="floatingInputUsername"
+                                        placeholder="myusername" required autofocus>
+                                    <label for="floatingInputUsername">Username</label>
+                                </div>
 
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" name="email" minlength="5" id="floatingInputEmail"
+                                        placeholder="name@example.com">
+                                    <label for="floatingInputEmail">Email address</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" minlength="6" name="password" id="floatingPassword"
+                                        minlength="5" placeholder="Password">
+                                    <label for="floatingPassword">Password</label>
+                                </div>
+                                <div class="d-grid mb-4">
+                                    <button class="btn btn-primary" type="submit">Register</button>
+                                </div>
+                                <div class="d-grid mb-4">
+                                    <button class="btn btn-info" type="submit">
+                                        <i class="fab fa-google me-2"></i> Sign up with Google
+                                    </button>
+                                </div>
+                                <a class="d-block text-center my-2 small" href="#">Have an account? Sign In</a>
+                            </div>
+
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

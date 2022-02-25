@@ -1,8 +1,43 @@
-<section class="register-wrap">
-  <%- include('./partials/error.ejs') %>
-    <form action="/auth/login" method="post" class="register-form">
-      <input type="text" name="email" id="email" placeholder="Email" />
-      <input type="text" name="password" id="password" placeholder="Password" />
-      <button type="submit">Login</button>
-    </form>
-</section>
+<div class="container">
+    <div class="row w-lg-75">
+        <div class="col-lg-10 col-xl-9 mx-auto">
+            <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden form-bg">
+                <div class="card-img-left d-none d-md-flex">
+                    <!-- Background image for card set in CSS! -->
+                </div>
+                <div class="card-body p-4 p-sm-5">
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">sign in</h5>
+                    <%- include('./partials/error.ejs') %>
+                        <hr class="mb-5">
+                        <form action="/auth/login" method="post">
+                            <div class="container-fluid row m-0 justify-content-between">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" name="username" minlength="3"
+                                        id="floatingInputUsername" placeholder="myusername" required autofocus>
+                                    <label for="floatingInputUsername">Username</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" name="password" id="floatingPassword"
+                                        minlength="5" placeholder="Password">
+                                    <label for="floatingPassword">Password</label>
+                                </div>
+                                <div class="d-grid mb-4">
+                                    <button class="btn btn-primary" type="submit">Sign in</button>
+                                </div>
+                                <div class="d-grid mb-4">
+                                    <button class="btn btn-info" type="submit">
+                                        <i class="fab fa-google me-2"></i> Sign in with Google
+                                    </button>
+                                </div>
+                                <a class="d-block text-center my-2 small" href="#">don't have an account? Sign
+                                    up</a>
+                            </div>
+
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

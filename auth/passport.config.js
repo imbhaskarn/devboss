@@ -1,5 +1,5 @@
 const passport = require('passport');
-
+const flash = require('connect-flash')
 const LocalStrategy = require('passport-local').Strategy
 
 const bcrypt = require('bcrypt');
@@ -9,25 +9,27 @@ const {
 } = require('../promisify.js')
 
 
-passport.use('local', new LocalStrategy({
-    usernameField: 'email'
-}, (email, password, done) => {
-
-    queryAsync('SELECT * from Users where `email` = ?', [email])
+passport.use('local', new LocalStrategy((username, password, done) => {
+    queryAsync('SELECT * from Users where `username` = ?', [username])
         .then(async (result) => {
-
             if (result.length === 0) return done(null, false, {
-                message: "Email is not registered!"
+                message: "Username does not exist!"
             })
 
             let isMatch = await bcrypt.compare(password, result[0].password)
-            if (!isMatch) return done(null, false, {
-                message: "Incorrect email or password!"
-            })
-            const user = result[0]
-            return done(null, user, {
-                message: "Welcome back" + user.name
-            })
+            if (!isMatch) {
+                console.log(1)
+                return done(null, false, {
+                    message: "Incorrect username or password!"
+                })
+            }
+            const user = {
+                name: result[0].name,
+                username: result[0].username,
+                id: result[0].id,
+                email: result[0].email
+            }
+            return done(null, user)
         })
         .catch((err) => {
             console.log(err);

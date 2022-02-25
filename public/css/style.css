@@ -1,185 +1,50 @@
-/*
-* Prefixed by https://autoprefixer.github.io
-* PostCSS: v8.3.6,
-* Autoprefixer: v10.3.1
-* Browsers: last 4 version
-*/
-
-@import url("cms.css");
-@import url("notfound.css");
-
-* {
-  margin: 0px;
-  padding: 0px;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+.search {
+    width: 2.5rem;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-  background: #e9ecef;
-  font-size: 16px;
-  line-height: 1.8;
-  font-weight: 400;
-  color: #888;
-  transition: all 0.5s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+.icon {
+    font-size: 24px;
+    color: var(--bs-white);
 }
 
-main {
-  background: #e9ecef;
-  padding: 200px 0px;
+.post-main {
+    padding: 0px 15%;
+}
+body{
+    min-height: 100vh;
+    max-width: 100%;
+}
+.myalert{
+    display: flex;
+    justify-content: center;
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .form-container {
+        width: 60%;
+    }
 }
 
-.nav-wrap {
-  position: relative;
-  background: white;
-  padding: 20px 100px
+@media (min-width: 1200px) {
+    .form-container {
+        width: 50%;
+    }
 }
 
-.logo {
-  padding: 20px;
-  font-family: "Poppins", sans-serif;
-  text-transform: uppercase;
-  color: #111111;
-  font-weight: 500;
-  letter-spacing: 2px;
+@media (max-width: 992px) and (min-width: 762px) {
+    .post-main {
+        padding: 0px 10%;
+    }
+}
+@media (max-width: 762px) {
+    .post-main {
+        padding: 0px 20px;
+    }
 }
 
-.navbar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  gap: 20px;
-  height: 50px;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+.searchBox {
+    margin-left: -1rem;
 }
-
-ul,
-li {
-  list-style-type: none;
-  display: inline-block;
-}
-
-li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-ul,
-li,
-a,
-button {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  font-size: 11px;
-  text-decoration: none;
-  color: #111111;
-  border: none;
-  outline: none;
-  text-transform: uppercase;
-}
-
-button {
-  font-size: inherit;
-  cursor: pointer;
-}
-
-.get-started {
-  background: transparent;
-  padding: 10px 15px;
-  border: 1px solid #222;
-  border-radius: 4px;
-  background: #222;
-  color: white;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 10px;
-  position: relative;
-}
-
-.get-started>a {
-  color: inherit;
-}
-/* register */
-.register-wrap {
-  width: 40%;
-  position: relative;
-  margin: auto;
-  margin-top: 100px;
-}
-
-/* All posts */
-.section-posts {
-  padding: 100px 20%;
-  background: #f8f9fa;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  gap: 100px;
-}
-
-.single-post {
-  height: 300px;
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
-}
-
-.single-post:nth-child(odd) {
-  flex-direction: row-reverse;
-}
-
-.h2-title {
-  font-size: 36px;
-  line-height: 40px;
-  text-transform: capitalize;
-  color: #222;
-}
-
-.cover-post {
-  background: url('/uploads/img.jpeg') no-repeat center center;
-  background-size: cover;
-  height: inherit;
-  width: 50%;
-}
-
-.content-post {
-  width: 50%;
-  overflow: hidden;
-  height: inherit;
-}
-
-.span-paragraph {
-  text-align: justify;
-  color: #555;
-}
-
-.span-paragraph::after {
-  content: "read more";
-  color: #0444c4;
-}
-
-.user > a{
- font-size: 20px;
- color: #111111;
- font-family: inherit;
- text-transform: capitalize;
-}
-.cover-wrap{
-  text-align: center;
-  color: #fff;
-  cursor:pointer;
-  padding: 15px 25px;
-  background: #111111;
-}
-.cover{
- visibility: hidden;
- width: 0px;
- height: 0px;
+.form-bg{
+    background: url('../form-bg.jpg') no-repeat center;
+    background-size: cover;
 }

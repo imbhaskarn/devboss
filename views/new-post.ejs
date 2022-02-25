@@ -1,23 +1,7 @@
-<section class="form-wrap">
-  <form action="/blog/new" method="post" enctype="multipart/form-data">
-    <div class="input-wrap">
-      Post Title: <br />
-      <input type="text" class="title" name="title" required />
+<main>
+    <div class="w-75 w-sm-100 p-5 d-flex justify-content-center">
+        <form action="/blog/post/new" method="post">
+            
+        </form>
     </div>
-    <div class="input-wrap">
-      Cover Photo: <br />
-      <label for="cover" class="cover-wrap">
-        <span class="cover-heading"> Choose an image</span>
-        <input type="file" id="cover" accept="image/*" class="cover" name="cover" required />
-      </label>
-
-    </div>
-    <div class="input-wrap">
-      Content: <br />
-      <textarea name="content" id="mytextarea" cols="30" rows="10" required></textarea>
-    </div>
-    <div class="input-wrap">
-      <button type="submit">Post</button>
-    </div>
-  </form>
-</section>
+</main>

@@ -1,15 +1,11 @@
-const conn = require("../model/db");
+const conn = require("../dbConnection/db");
 const fs = require("fs");
 const base64 = require("base-64");
 
 //Home route
 
 const HomePage = (req, res) => {
-  console.log(req.user)
-  return res.render('index', {
-    user: req.user
-  })
-
+  res.redirect('/blog')
 };
 
 // all posts route
