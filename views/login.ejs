@@ -1,43 +1,29 @@
-<div class="container">
-    <div class="row w-lg-75">
-        <div class="col-lg-10 col-xl-9 mx-auto">
-            <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden form-bg">
-                <div class="card-img-left d-none d-md-flex">
-                    <!-- Background image for card set in CSS! -->
-                </div>
-                <div class="card-body p-4 p-sm-5">
-                    <h5 class="card-title text-center mb-5 fw-light fs-5">sign in</h5>
-                    <%- include('./partials/error.ejs') %>
-                        <hr class="mb-5">
-                        <form action="/auth/login" method="post">
-                            <div class="container-fluid row m-0 justify-content-between">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" name="username" minlength="3"
-                                        id="floatingInputUsername" placeholder="myusername" required autofocus>
-                                    <label for="floatingInputUsername">Username</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" name="password" id="floatingPassword"
-                                        minlength="5" placeholder="Password">
-                                    <label for="floatingPassword">Password</label>
-                                </div>
-                                <div class="d-grid mb-4">
-                                    <button class="btn btn-primary" type="submit">Sign in</button>
-                                </div>
-                                <div class="d-grid mb-4">
-                                    <button class="btn btn-info" type="submit">
-                                        <i class="fab fa-google me-2"></i> Sign in with Google
-                                    </button>
-                                </div>
-                                <a class="d-block text-center my-2 small" href="#">don't have an account? Sign
-                                    up</a>
+<section class="site-section">
+    <div class="wrap p-5">
+        <div class="row">
+            <div class="container container-fluid p-5 w-75 bg-light rounded">
+                <h3 class="h4 text-center text-dark text-monospace text-uppercase py-2"> login</h3>
+                <div class="form-group">
+                    <%- include('./partials/message.ejs') %>
+                        <form action="/blog/post/new" class="form text-capitalize" method="post">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username:
+                                </label>
+                                <input type="text" class="form-control rounded" name="username" id="username"
+                                    minlength="20">
                             </div>
-
+                            <div class="mb-3 ">
+                                <label for="username" class="form-label">Password:
+                                </label>
+                                <input type="text" class="form-control rounded" name="username" id="password"
+                                    minlength="6">
+                            </div>
+                            <div class="mb-3 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary btn-sm rounded my-2">Submit</button>
+                            </div>
                         </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
+</section>

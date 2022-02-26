@@ -1,59 +1,42 @@
-<div class="container">
-    <div class="row w-lg-75">
-        <div class="col-lg-10 col-xl-9 mx-auto">
-            <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden form-bg">
-                <div class="card-img-left d-none d-md-flex">
-                    <!-- Background image for card set in CSS! -->
-                </div>
-                <div class="card-body p-4 p-sm-5">
-                    <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
+<section class="site-section">
+    <div class="wrap p-5">
+        <div class="row">
+            <div class="container container-fluid p-5 w-75 bg-light rounded">
+                <h3 class="h4 text-center text-dark text-monospace text-uppercase py-2"> register</h3>
+                <div class="form-group">
                     <%- include('./partials/message.ejs') %>
-                        <hr class="mb-5">
-                        <form action="/auth/register" method="post">
-                            <div class="container-fluid row m-0 justify-content-between">
-                                <div class="form-floating mb-3 col">
-                                    <input type="text" class="form-control" minlength="3" name="fname"
-                                        id="floatingInputUsername" placeholder="fname" required autofocus>
-                                    <label for="floatingInputUsername">First name</label>
-                                </div>
-                                <div class="form-floating mb-3 col">
-                                    <input type="text" class="form-control" minlength="3" name="lname"
-                                        id="floatingInputUsername" placeholder="myusername" required autofocus>
-                                    <label for="floatingInputUsername">Last name</label>
-                                </div>
+                        <form action="/blog/post/new" class="form flex-column text-capitalize" method="post">
+                            <div class="mb-2">
+                                <label for="fname" class="form-label">Full Name:
+                                </label>
+                                <input type="text" class="form-control rounded" name="fullname" id="fullname"
+                                    aria-describedby="fullname" minlength="5" required>
                             </div>
-                            <div class="container-fluid row m-0 justify-content-between">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" name="username" minlength="3" id="floatingInputUsername"
-                                        placeholder="myusername" required autofocus>
-                                    <label for="floatingInputUsername">Username</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" name="email" minlength="5" id="floatingInputEmail"
-                                        placeholder="name@example.com">
-                                    <label for="floatingInputEmail">Email address</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" minlength="6" name="password" id="floatingPassword"
-                                        minlength="5" placeholder="Password">
-                                    <label for="floatingPassword">Password</label>
-                                </div>
-                                <div class="d-grid mb-4">
-                                    <button class="btn btn-primary" type="submit">Register</button>
-                                </div>
-                                <div class="d-grid mb-4">
-                                    <button class="btn btn-info" type="submit">
-                                        <i class="fab fa-google me-2"></i> Sign up with Google
-                                    </button>
-                                </div>
-                                <a class="d-block text-center my-2 small" href="#">Have an account? Sign In</a>
+                            <div class="mb-2">
+                                <label for="email" class="form-label">Email:
+                                </label>
+                                <input type="email" class="form-control rounded" name="email" id="email"
+                                    aria-describedby="emailHelp" minlength="5">
                             </div>
-
+                            <div class="mb-2">
+                                <label for="username" class="form-label">Username:
+                                </label>
+                                <input type="text" class="form-control rounded" name="username" id="username"
+                                    aria-describedby="emailHelp" minlength="5">
+                            </div>
+                            <div class="mb-2">
+                                <label for="password" class="form-label">Password:
+                                </label>
+                                <input type="text" class="form-control rounded" name="username" id="password"
+                                    aria-describedby="emailHelp" minlength="20">
+                            </div>
+                            <div class="mb-2 d-flex justify-content-center">
+                                <button type="submit"
+                                    class="btn btn-primary btn-sm rounded mt-5 px-5 text-uppercase">Submit</button>
+                            </div>
                         </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
+</section>

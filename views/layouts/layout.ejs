@@ -5,9 +5,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/main.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css"> -->
+    <!-- test -->
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/animate.css">
+    <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="/staticfonts/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="/staticfonts/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/fonts/flaticon/font/flaticon.css">
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- test -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
@@ -16,30 +28,17 @@
 </head>
 
 <body>
-    <header class="text-dark">
-        <%- include('../partials/navbar.ejs') %>
-            <%- include('../partials/header.ejs') %>
-    </header>
-    <%- body %>
-        <footer class="text-center w-100 bg-dark pt-2">
-            <div class="container d-flex justify-content-center p-2">
-                <button type="button" class="btn btn-primary mx-2">
-                    <i class="fab fa-github"></i>
-                </button>
-                <button type="button" class="btn btn-primary mx-2">
-                    <i class="fab fa-instagram"></i>
-                </button>
-                <button type="button" class="btn btn-primary mx-2">
-                    <i class="fab fa-twitter"></i>
-                </button>
-            </div>
-            <!-- Copyright -->
-            <div class="text-center text-info p-3">
-                © 2022 Copyright:
-                <a class="text-info text-decoration-none" href="https://bhaskar.one">Justblog</a>
-            </div>
-            <!-- Copyright -->
-        </footer>
+    <div class="wrap">
+        <%- include('../partials/header.ejs') %>
+            <%- body %>
+                <%- include('../partials/footer.ejs') %>
+                    <!-- <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+                        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+                        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                            stroke="#f4b214" />
+                    </svg></div> -->
+                    <%- include('../partials/scripts.ejs') %>
+    </div>
 </body>
 
 </html>

@@ -16,7 +16,7 @@ router.post('/register', formValidator.Registration, authController.registerActi
 // login route
 router.get('/login', authController.login)
 
-router.post('/login', formValidator.login, passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {
   successRedirect: '/blog',
   failureRedirect: '/auth/login',
   failureFlash: true,
