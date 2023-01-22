@@ -46,6 +46,6 @@ Blog
    │  ├─ nav.ejs
    │  ├─ user.ejs
    │  └─ welcome.ejs
-   └─ register.ejs
+
 
 ```
