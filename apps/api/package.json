@@ -1,5 +1,5 @@
 {
-  "name": "my-project",
+  "name": "api",
   "version": "1.0.0",
   "description": "A Node.js application with Prisma, ES6, Jest, and TypeScript",
   "main": "dist/src/app.js",
