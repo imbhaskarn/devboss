@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  username      String    @unique
+  firstName     String?
+  lastName      String?
+  password      String
+  dateOfBirth   DateTime?
+  profileImage  String?
+  bio           String?
+  location      String?
+  website       String?
+  phoneNumber   String?
+  isVerified    Boolean   @default(false)
+  isBlocked     Boolean   @default(false)
+  isDeactivated Boolean   @default(false)
+  isDeleted     Boolean   @default(false)
+  isAdmin       Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLogin     DateTime
+  // posts         Post[]
+  // comments      Comment[]
+  // followers     User[]    @relation("Followers", references: [id], map: "userFollowers")
+  // following     User[]    @relation("Following", references: [id], map: "userFollowing")
+}
+
+// model Post {
+//   id        Int      @id @default(autoincrement())
+//   title     String
+//   content   String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   // author    User     @relation(fields: [authorId], references: [id], map: "postAuthor")
+//   authorId  Int
+//   comments  Comment[]
+// }
+
+// model Comment {
+//   id        Int      @id @default(autoincrement())
+//   content   String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   // author    User     @relation(fields: [authorId], references: [id], map: "commentAuthor")
+//   authorId  Int
+//   post      Post     @relation(fields: [postId], references: [id], map: "commentPost")
+//   postId    Int
+// }
