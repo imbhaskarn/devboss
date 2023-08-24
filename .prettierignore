@@ -1,0 +1,4 @@
+.next/
+.github
+*.css
+node_modules/
