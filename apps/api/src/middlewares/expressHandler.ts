@@ -12,4 +12,4 @@ const errorHandler = (
     return res.status(500).json({ error: 'Something went wrong' });
 };
 
-export default errorHandler
+export default errorHandler;
