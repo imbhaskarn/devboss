@@ -9,4 +9,4 @@ authRouter.post('/register', userSignUpController);
 
 authRouter.get('/login', (req, res) => {});
 
-export default authRouter
+export default authRouter;

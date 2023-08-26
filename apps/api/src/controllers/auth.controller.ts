@@ -6,12 +6,12 @@ import { createUser } from '../services/user/createUser';
 
 export const userSignUpController = async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
-    console.log(username, email, password )
+    console.log(username, email, password);
     if (!username || !email || !password) {
-      return res.status(409).json({
-        result: 'error',
-        message: 'Username, Email and Password are required fields!',
-    });
+        return res.status(409).json({
+            result: 'error',
+            message: 'Username, Email and Password are required fields!',
+        });
     }
     const existingUser = await checkIfUserExists(username, email);
 
