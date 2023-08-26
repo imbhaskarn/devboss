@@ -3,10 +3,10 @@ import {
     userSignUpController,
     userSignInController,
 } from '../controllers/auth.controller';
-const router = Router();
+const authRouter = Router();
 
-router.post('/register', userSignUpController);
+authRouter.post('/register', userSignUpController);
 
-router.get('/login', (req, res) => {});
+authRouter.get('/login', (req, res) => {});
 
-export default router;
+export default authRouter;

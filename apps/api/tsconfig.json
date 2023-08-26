@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "ES2020", // Adjust to the Node.js version you're targeting
+        "target": "esnext", // Adjust to the Node.js version you're targeting
         "module": "CommonJS",
         "strict": true,
         "esModuleInterop": true,
