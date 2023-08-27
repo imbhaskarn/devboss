@@ -42,7 +42,7 @@ export const userSignUpController = async (req: Request, res: Response) => {
 };
 
 export const userSignInController = async (req: Request, res: Response) => {
-    const { email,username, password } = req.body;
+    const { email, username, password } = req.body;
 
     try {
         // Find the user by username
