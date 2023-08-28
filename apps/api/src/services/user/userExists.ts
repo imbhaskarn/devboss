@@ -1,6 +1,6 @@
 import prisma from '../../prisma';
 
-export const checkIfUserWithEmailExists = async (email: string) => {
+export const checkIfEmailExists = async (email: string) => {
     return await prisma.user.findFirst({
         where: {
             email: email,
@@ -8,8 +8,8 @@ export const checkIfUserWithEmailExists = async (email: string) => {
     });
 };
 
-export const checkIfUserWithUsernameExists = async (username: string) => {
-    return await prisma.user.findFirst({
+export const checkIfUsernameExists = async (username: string) => {
+    return prisma.user.findFirst({
         where: {
             username: username,
         },

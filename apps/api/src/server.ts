@@ -1,5 +1,5 @@
 import { createServer } from 'http';
-import app from './src/app';
+import app from './app';
 
 const PORT = process.env.PORT || 5000;
 
