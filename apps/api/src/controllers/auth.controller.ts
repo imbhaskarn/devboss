@@ -1,43 +1,55 @@
-import { Request, Response } from 'express';
+import * as dotenv from 'dotenv';
+dotenv.config();
+import { NextFunction, Request, Response } from 'express';
 import prisma from '../prisma';
 import {
-    checkIfUserWithEmailExists,
-    checkIfUserWithUsernameExists,
+    checkIfEmailExists,
+    checkIfUsernameExists,
 } from '../services/user/userExists';
+
 import bcrypt from 'bcrypt';
 import { createUser } from '../services/user/createUser';
+import jwt from 'jsonwebtoken';
 
-export const userSignUpController = async (req: Request, res: Response) => {
-    const { username, email, password } = req.body;
+export const userSignUpController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { username, email, password } = req.body;
 
-    // Check if a user with the provided email already exists
-    const userWithEmail = await checkIfUserWithEmailExists(email);
-    if (userWithEmail) {
-        return res.status(409).json({
-            result: 'error',
-            message: 'Email is already registered.',
-        });
-    }
+        // Check if a user with the provided email already exists
+        const userWithEmail = await checkIfEmailExists(email);
+        if (userWithEmail) {
+            return res.status(409).json({
+                result: 'error',
+                message: 'Email is already registered.',
+            });
+        }
 
-    // Check if a user with the provided username already exists
-    const userWithUsername = await checkIfUserWithUsernameExists(username);
-    if (userWithUsername) {
-        return res.status(409).json({
-            result: 'error',
-            message: 'Username is already in use.',
-        });
-    }
+        // Check if a user with the provided username already exists
+        const userWithUsername = await checkIfUsernameExists(username);
+        if (!userWithUsername) {
+            return res.status(409).json({
+                result: 'error',
+                message: 'Username is already in use.',
+            });
+        }
 
-    // Hash the provided password before storing it in the database
-    const hashedPassword = await bcrypt.hash(password, 10);
+        // Hash the provided password before storing it in the database
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new user in the database with the hashed password
-    const newUser = await createUser(email, username, hashedPassword);
-    if (newUser) {
-        return res.json({
-            result: 'success',
-            message: 'User created successfully!',
-        });
+        // Create a new user in the database with the hashed password
+        const newUser = await createUser(email, username, hashedPassword);
+        if (newUser) {
+            return res.json({
+                result: 'success',
+                message: 'User created successfully!',
+            });
+        }
+    } catch (e) {
+        next(e);
     }
 };
 
@@ -73,15 +85,28 @@ export const userSignInController = async (req: Request, res: Response) => {
                 message: 'Invalid credentials.',
             });
         }
-
+        //generate jwt access token
+        const accessToken = jwt.sign(
+            {
+                id: user.id,
+                username: user.username,
+            },
+            process.env.SECRET as string,
+            {
+                expiresIn: '1d', //
+            }
+        );
         // Successful login
         return res.status(200).json({
             status: 'success',
             message: 'Login successfull.',
-            user: {
-                id: user.id,
-                email: user.email,
-                username: user.username,
+            data: {
+                accessToken,
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    username: user.username,
+                },
             },
         });
     } catch (error) {
