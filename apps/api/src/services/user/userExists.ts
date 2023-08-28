@@ -9,9 +9,9 @@ export const checkIfEmailExists = async (email: string) => {
 };
 
 export const checkIfUsernameExists = async (username: string) => {
-   return prisma.user.findFirst({
+    return prisma.user.findFirst({
         where: {
             username: username,
         },
-    }, )
+    });
 };

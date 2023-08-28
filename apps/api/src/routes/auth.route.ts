@@ -6,9 +6,7 @@ import {
 import validator from '../middlewares/validators';
 import expressAsyncHandler from 'express-async-handler';
 
-
 const authRouter = Router();
-
 
 authRouter.post('/register', validator.userSignUp, userSignUpController);
 
