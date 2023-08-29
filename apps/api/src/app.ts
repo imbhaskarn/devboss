@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/auth', authRoute);
-app.use('/api/v1/user', userRouter)
+app.use('/api/v1/user', userRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack);
@@ -27,6 +27,5 @@ app.use('*', (req, res) => {
 });
 process.on('unhandledRejection', (reason: Error) => {
     console.log('Unhandled Promise Rejection: reason:');
-
 });
 export default app;
