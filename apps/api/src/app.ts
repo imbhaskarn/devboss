@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
-import errorHandler from './middlewares/expressHandler';
 import authRoute from './routes/auth.route';
+import userRouter from './routes/user.route';
 
 const app = express();
 
@@ -8,6 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/user', userRouter)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack);
@@ -26,6 +27,6 @@ app.use('*', (req, res) => {
 });
 process.on('unhandledRejection', (reason: Error) => {
     console.log('Unhandled Promise Rejection: reason:');
-    // console.error(reason.stack);
+
 });
 export default app;
