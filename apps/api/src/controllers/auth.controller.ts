@@ -90,6 +90,8 @@ export const userSignInController = async (req: Request, res: Response) => {
             {
                 id: user.id,
                 username: user.username,
+                email: user.email,
+                profileImage: user.profileImage,
             },
             process.env.SECRET as string,
             {
