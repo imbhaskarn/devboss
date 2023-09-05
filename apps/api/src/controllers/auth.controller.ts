@@ -108,6 +108,18 @@ export const userSignInController = async (req: Request, res: Response) => {
                     id: user.id,
                     email: user.email,
                     username: user.username,
+                    // Other user fields you want to include
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    dateOfBirth: user.dateOfBirth,
+                    profileImage: user.profileImage,
+                    bio: user.bio,
+                    location: user.location,
+                    website: user.website,
+                    phoneNumber: user.phoneNumber,
+                    createdAt: user.createdAt,
+                    updatedAt: user.updatedAt,
+                    lastLogin: user.lastLogin,
                 },
             },
         });
