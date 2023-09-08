@@ -7,8 +7,9 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "./dist",
-        "rootDir": "./src"
+        "rootDir": "./src",
+        "typeRoots": ["./typings", "./node_modules/@types"]
     },
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*.ts", "src/@types/swagger-ui-express.d.ts"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }
