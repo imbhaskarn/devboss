@@ -39,7 +39,6 @@ app.use("*", (req, res) => {
     },
   });
 });
-process.on("unhandledRejection", (reason: Error) => {
-  console.log("Unhandled Promise Rejection: reason:");
-});
+
+
 export default app;
