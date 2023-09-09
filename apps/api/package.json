@@ -8,6 +8,7 @@
         "dev": "nodemon",
         "build": "tsc",
         "test": "jest",
+        "format": "prettier --write .",
         "migrate:dev": "prisma migrate dev --schema src/prisma/schema.prisma",
         "db:push": "prisma db push --schema src/prisma/schema.prisma",
         "prisma:validate": "prisma db push --schema src/prisma/schema.prisma"
@@ -30,8 +31,8 @@
         "bcrypt": "^5.1.1",
         "dotenv": "^16.3.1",
         "express": "^4.18.2",
-        "express-async-handler": "^1.2.0",
         "joi": "^17.9.2",
+        "joi-to-typescript": "^4.7.0",
         "jsonwebtoken": "^9.0.1",
         "prisma": "^5.2.0"
     },

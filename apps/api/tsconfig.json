@@ -8,7 +8,11 @@
         "forceConsistentCasingInFileNames": true,
         "outDir": "./dist",
         "rootDir": "./src",
-        "typeRoots": ["./typings", "./node_modules/@types"]
+        "typeRoots": ["./typings", "./node_modules/@types"],
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["src/*"]
+        }
     },
     "include": ["src/**/*.ts", "src/@types/swagger-ui-express.d.ts"],
     "exclude": ["node_modules", "**/*.spec.ts"]

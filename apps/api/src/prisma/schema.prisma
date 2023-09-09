@@ -36,12 +36,17 @@ model User {
   // followers     User[]    @relation("Followers", references: [id], map: "userFollowers")
   // following     User[]    @relation("Following", references: [id], map: "userFollowing")
 }
-
+enum Status {
+  draft
+  published
+}
 model Post {
   id        Int       @id @default(autoincrement())
   title     String
   content   String
   meta      String
+  description String
+  status    Status  @default(draft)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   author    User      @relation(fields: [authorId], references: [id], map: "postAuthor")
