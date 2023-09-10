@@ -4,6 +4,6 @@ import { userProfileController } from '../controllers/user.controller';
 
 const userRouter = Router();
 
-userRouter.get('/profile', validator.Username, userProfileController);
+userRouter.get('/profile', userProfileController);
 
 export default userRouter;
