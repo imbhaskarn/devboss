@@ -1,24 +1,29 @@
 {
     "compilerOptions": {
-      "target": "ESNext", // Adjust to the Node.js version you're targeting
-      "module": "CommonJS",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "outDir": "./dist",
-      "types": [
-        // ... other types
-        "jest",
-        "node"
-      ],
-      "baseUrl": "./",
-      "paths": {
-        "@/*": ["src/*"]
-      },
-      "typeRoots": ["./node_modules/@types"]
+        "target": "ESNext", // Adjust to the Node.js version you're targeting
+        "module": "CommonJS",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "./dist",
+        "types": [
+            // ... other types
+            "jest",
+            "node"
+        ],
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["src/*"]
+        },
+        "typeRoots": ["./node_modules/@types"]
     },
     "include": ["src/**/*.ts", "**/__tests__/"],
-    "exclude": ["node_modules", "**/*.spec.ts", "./coverage", "./dist", "jest.config.js"]
-  }
-  
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts",
+        "./coverage",
+        "./dist",
+        "jest.config.js"
+    ]
+}
