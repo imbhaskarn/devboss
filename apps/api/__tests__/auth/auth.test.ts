@@ -1,24 +1,23 @@
-// Dummy test file (e.g., dummy.test.js)
+import app from "../../src/app";
+import request from "supertest";
 
-// Import the function you want to test
-function add(a:number, b:number) {
-    return a + b;
-  }
-  
-  // Define a test suite using describe
-  describe('add function', () => {
-    // Define a test case using it (or test)
-    it('should add two numbers correctly', () => {
-      // Arrange: Set up the inputs and expected result
-      const num1 = 3;
-      const num2 = 4;
-      const expectedResult = 7;
-  
-      // Act: Call the function you want to test
-      const result = add(num1, num2);
-  
-      // Assert: Check if the result matches the expected value
-      expect(result).toBe(expectedResult);
-    });
+describe("User API", () => {
+  it("should create a resource with valid data", async () => {
+    const postData = {
+      // Define your POST request data here
+      // For example, if you're sending JSON data:
+      username: "username",
+      password: "P@ssw0rd",
+    };
+
+    const response = await request(app)
+      .post("/api/endpoint")
+      .send(postData)
+      .set("Accept", "application/json"); // Set the content type if needed
+
+    // Assertions
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("result");
+    expect(response.body.result).toBe("success");
   });
-  
+});
