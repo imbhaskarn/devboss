@@ -42,10 +42,30 @@ export const userSignUpController = async (
 
         // Create a new user in the database with the hashed password
         const newUser = await createUser(email, username, hashedPassword);
+        const accessToken = jwt.sign(
+            {
+                id: newUser.id,
+                username: newUser.username,
+                email: newUser.email,
+                profileImage: newUser.profileImage,
+            },
+            process.env.SECRET as string,
+            {
+                expiresIn: '1d', //
+            }
+        );
         if (newUser) {
-            return res.json({
+            return res.status(201).json({
                 result: 'success',
-                message: 'User created successfully!',
+                message: 'Signup Successfull.',
+                data: {
+                    accessToken,
+                    user: {
+                        id: newUser.id,
+                        email: newUser.email,
+                        username: newUser.username,
+                    },
+                },
             });
         }
     } catch (e) {
@@ -99,7 +119,7 @@ export const userSignInController = async (req: Request, res: Response) => {
             }
         );
         // Successful login
-        return res.status(200).json({
+        return res.status(201).json({
             status: 'success',
             message: 'Login successfull.',
             data: {

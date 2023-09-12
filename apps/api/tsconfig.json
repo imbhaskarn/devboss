@@ -1,19 +1,29 @@
 {
     "compilerOptions": {
-        "target": "esnext", // Adjust to the Node.js version you're targeting
+        "target": "ESNext", // Adjust to the Node.js version you're targeting
         "module": "CommonJS",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "./dist",
-        "rootDir": "./src",
-        "typeRoots": ["./typings", "./node_modules/@types"],
+        "types": [
+            // ... other types
+            "jest",
+            "node"
+        ],
         "baseUrl": "./",
         "paths": {
             "@/*": ["src/*"]
-        }
+        },
+        "typeRoots": ["./node_modules/@types"]
     },
-    "include": ["src/**/*.ts", "src/@types/swagger-ui-express.d.ts"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+    "include": ["src/**/*.ts", "**/__tests__/"],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts",
+        "./coverage",
+        "./dist",
+        "jest.config.js"
+    ]
 }
