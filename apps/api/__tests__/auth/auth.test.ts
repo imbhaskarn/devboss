@@ -1,23 +1,54 @@
-import app from '../../src/app';
-import request from 'supertest';
+import request from "supertest";
 
-describe('User API', () => {
-    it('should create a resource with valid data', async () => {
-        const postData = {
-            // Define your POST request data here
-            // For example, if you're sending JSON data:
-            username: 'username',
-            password: 'P@ssw0rd',
-        };
+import app from "../../src/app"; // Import your Express app instance here
 
-        const response = await request(app)
-            .post('/api/endpoint')
-            .send(postData)
-            .set('Accept', 'application/json'); // Set the content type if needed
+describe("User Authentication APIs", () => {
+  beforeAll(async () => {
+    process.env.NODE_ENV = "test";
+    process.env.DATABASE_URL =
+      "postgresql://postgres:secret@localhost:5412/postgres";
+  });
 
-        // Assertions
-        expect(response.status).toBe(201);
-        expect(response.body).toHaveProperty('result');
-        expect(response.body.result).toBe('success');
-    });
+  afterAll(async () => {
+    // Cleanup, close the database connection, etc.
+  });
+
+  it("should handle user registration", async () => {
+    const mockRequest = {
+      body: {
+        username: "tpstuser",
+        email: "tpst@example.com",
+        password: "P@ssw0rd",
+      },
+    };
+
+    const response = await request(app)
+      .post("/api/v1/auth/register")
+      .send(mockRequest.body);
+    console.log(response.body);
+    expect(response.status).toBe(201);
+    expect(response.body.result).toBe("success");
+    expect(response.body.message).toBe("Signup Successfull.");
+    expect(response.body.data.accessToken).toBeDefined();
+    expect(response.body.data.user).toBeDefined();
+  });
+
+  it("should handle user login", async () => {
+    const mockRequest = {
+      body: {
+        email: "tpst@example.com",
+        password: "P@ssw0rd",
+      },
+    };
+    
+    const response = await request(app)
+      .post("/api/v1/auth/login")
+      .send(mockRequest.body);
+    console.log(response.body);
+    expect(response.status).toBe(201);
+    expect(response.body.status).toBe("success");
+    expect(response.body.message).toBe("Login successfull.");
+    expect(response.body.data.accessToken).toBeDefined();
+    expect(response.body.data.user).toBeDefined();
+  });
 });

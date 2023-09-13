@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import { userSignInController } from '@/controllers/auth.controller';
 import validator from '@/middlewares/validators';
-import { createBlogPost } from '@/services/user/blog/createPost';
+import { createBlogPost } from '@/services/blog/createPost';
 import { createPostController } from '@/controllers/blog.controller';
 import { NewPostSchema } from '@/middlewares/validators/schema/newPostSchema';
 
