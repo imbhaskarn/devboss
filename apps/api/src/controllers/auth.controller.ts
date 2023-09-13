@@ -4,11 +4,10 @@ import { NextFunction, Request, Response } from 'express';
 import prisma from '../prisma';
 import {
     checkIfEmailExists,
-    checkIfUsernameExists,
-} from '../services/user/userExists';
+    checkIfUsernameExists,createUser
+} from '../services/user/';
 
 import bcrypt from 'bcrypt';
-import { createUser } from '../services/user/createUser';
 import jwt from 'jsonwebtoken';
 
 export const userSignUpController = async (
@@ -30,7 +29,7 @@ export const userSignUpController = async (
 
         // Check if a user with the provided username already exists
         const userWithUsername = await checkIfUsernameExists(username);
-        if (!userWithUsername) {
+        if (userWithUsername) {
             return res.status(409).json({
                 result: 'error',
                 message: 'Username is already in use.',

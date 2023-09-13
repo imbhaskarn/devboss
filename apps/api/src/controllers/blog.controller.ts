@@ -10,7 +10,7 @@ import {
 import bcrypt from 'bcrypt';
 import { createUser } from '@/services/user/createUser';
 import jwt from 'jsonwebtoken';
-import { createBlogPost } from '@/services/user/blog/createPost';
+import { createBlogPost } from '@/services/blog/createPost';
 
 export const createPostController = async (req: Request, res: Response) => {
     const { title, meta, description, status, content } = req.body;
