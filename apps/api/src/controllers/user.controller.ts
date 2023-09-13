@@ -2,15 +2,15 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import { NextFunction, Request, Response } from "express";
 import prisma from "../prisma";
-import {
-  checkIfEmailExists,
-  checkIfUsernameExists,
-} from "../services/user/userExists";
 
 import bcrypt from "bcrypt";
-import { createUser } from "../services/user/createUser";
 import jwt from "jsonwebtoken";
-import { GetUser } from "../services/user/getUser";
+import {
+  GetUser,
+  createUser,
+  checkIfEmailExists,
+  checkIfUsernameExists,
+} from "../services/user/";
 
 export const userProfileController = async (
   req: Request,

@@ -4,12 +4,13 @@ import {
     userSignInController,
 } from '../controllers/auth.controller';
 import validator from '../middlewares/validators';
-import expressAsyncHandler from 'express-async-handler';
+import { signupSchema } from '../middlewares/validators/schema/signupSchema';
+import { loginSchema } from '../middlewares/validators/schema/loginSchema';
 
 const authRouter = Router();
 
-authRouter.post('/register', validator.userSignUp, userSignUpController);
+authRouter.post('/register', validator(signupSchema), userSignUpController);
 
-authRouter.post('/login', validator.userLogin, userSignInController);
+authRouter.post('/login', validator(loginSchema), userSignInController);
 
 export default authRouter;
