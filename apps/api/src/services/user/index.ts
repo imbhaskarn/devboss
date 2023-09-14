@@ -20,8 +20,6 @@ export const createUser = async (
     }
 };
 
-
-
 export const checkIfEmailExists = async (email: string) => {
     return await prisma.user.findFirst({
         where: {
@@ -37,8 +35,6 @@ export const checkIfUsernameExists = async (username: string) => {
         },
     });
 };
-
-
 
 export const GetUser = async (username: string) => {
     return await prisma.user.findUnique({

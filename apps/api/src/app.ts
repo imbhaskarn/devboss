@@ -3,6 +3,9 @@ import authRoute from './routes/auth.route';
 import userRouter from './routes/user.route';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 const swaggerOptions = {
     swaggerDefinition: {
