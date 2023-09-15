@@ -8,13 +8,13 @@ const userRouter = Router();
 userRouter.get(
   '/profile',
   isAuthenticated,
-//   validator.Username,
+  //   validator.Username,
   userProfileController
 );
 userRouter.post(
   '/profile',
   isAuthenticated,
-//   validator.Username,
+  //   validator.Username,
   userProfileController
 );
 
