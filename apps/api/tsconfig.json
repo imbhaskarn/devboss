@@ -12,9 +12,9 @@
       "jest",
       "node"
     ],
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["/src/*"]
     },
     "typeRoots": ["./node_modules/@types"]
   },

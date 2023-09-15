@@ -1,5 +1,5 @@
 import { date } from 'joi';
-import prisma from '../../prisma';
+import prisma from '../../.prisma';
 
 export const createUser = async (
   email: string,
