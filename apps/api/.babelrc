@@ -1,16 +1,16 @@
 {
-    "presets": [
-        [
-            "@babel/preset-env",
-            {
-                "targets": {
-                    "node": "current"
-                }
-            }
-        ],
-        "@babel/preset-typescript"
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
     ],
-    "plugins": [
-        // Add any Babel plugins you need here
-    ]
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    // Add any Babel plugins you need here
+  ]
 }

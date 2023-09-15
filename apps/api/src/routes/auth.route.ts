@@ -1,13 +1,12 @@
 import { Router } from 'express';
 import {
-    userSignUpController,
-    userSignInController,
-} from '@/controllers/auth.controller';
-import validator from '@/middlewares/validators';
-
-import { loginSchema } from '@/middlewares/validators/schema/loginSchema';
-import { verifyEmailController } from '@/controllers/auth.controller';
-import { signupSchema } from '@/middlewares/validators/schema/signupSchema';
+  userSignUpController,
+  userSignInController,
+  verifyEmailController,
+} from '../controllers/auth.controller';
+import validator from '../middlewares/validators';
+import { signupSchema } from '../middlewares/validators/schema/signupSchema';
+import { loginSchema } from '../middlewares/validators/schema/loginSchema';
 
 const authRouter = Router();
 
