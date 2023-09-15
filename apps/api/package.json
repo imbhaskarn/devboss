@@ -8,9 +8,10 @@
     "dev": "nodemon",
     "build": "tsc",
     "format": "prettier --write .",
-    "migrate:deploy": "prisma migrate deploy --schema src/prisma/schema.prisma",
-    "db:push": "prisma db push --schema src/prisma/schema.prisma",
-    "prisma:validate": "prisma db push --schema src/prisma/schema.prisma",
+    "migrate:dev": "prisma migrate dev --schema src/.prisma/schema.prisma",
+    "migrate:deploy": "prisma migrate deploy --schema src/.prisma/schema.prisma",
+    "db:push": "prisma db push --schema src/.prisma/schema.prisma",
+    "prisma:validate": "prisma db push --schema src/.prisma/schema.prisma",
     "test": "jest"
   },
   "keywords": [
@@ -23,12 +24,16 @@
   "author": "Bhaskar Sharma",
   "license": "ISC",
   "dependencies": {
+    "@types/nodemailer": "^6.4.10",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-rate-limit": "^7.0.0",
+    "handlebars": "^4.7.8",
+    "ioredis": "^5.3.2",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.1",
+    "nodemailer": "^6.9.5",
     "prisma": "^5.2.0"
   },
   "devDependencies": {
