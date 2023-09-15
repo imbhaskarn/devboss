@@ -1,16 +1,16 @@
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 dotenv.config();
-import { NextFunction, Request, Response } from "express";
-import prisma from "../prisma";
+import { NextFunction, Request, Response } from 'express';
+import prisma from '../prisma';
 
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import {
   GetUser,
   createUser,
   checkIfEmailExists,
   checkIfUsernameExists,
-} from "../services/user/";
+} from '../services/user/';
 
 export const userProfileController = async (
   req: Request,
@@ -22,13 +22,13 @@ export const userProfileController = async (
     const user = await GetUser(username);
     if (!user) {
       return res.status(404).json({
-        result: "error",
-        message: "user not found",
+        result: 'error',
+        message: 'user not found',
         data: {},
       });
     }
     return res.status(200).json({
-      result: "success",
+      result: 'success',
       data: {
         user,
       },
@@ -38,27 +38,27 @@ export const userProfileController = async (
   }
 };
 export const updateProfileController = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) => {
-    try {
-        const { username } = req.body;
-        const user = await GetUser(username);
-        if (!user) {
-            return res.status(404).json({
-                result: 'error',
-                message: 'user not found',
-                data: {},
-            });
-        }
-        return res.status(200).json({
-            result: 'success',
-            data: {
-                user,
-            },
-        });
-    } catch (e) {
-        next(e);
+  try {
+    const { username } = req.body;
+    const user = await GetUser(username);
+    if (!user) {
+      return res.status(404).json({
+        result: 'error',
+        message: 'user not found',
+        data: {},
+      });
     }
+    return res.status(200).json({
+      result: 'success',
+      data: {
+        user,
+      },
+    });
+  } catch (e) {
+    next(e);
+  }
 };
