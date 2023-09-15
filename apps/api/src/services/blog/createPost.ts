@@ -1,4 +1,4 @@
-import prisma from '../../.prisma'
+import prisma from '../../.prisma';
 import { Status } from '@prisma/client';
 
 // Define an enum for the 'status' property

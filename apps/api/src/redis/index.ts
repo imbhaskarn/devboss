@@ -26,5 +26,4 @@ redis.on('end', () => {
   console.log('Redis connection ended');
 });
 
-
 export default redis;

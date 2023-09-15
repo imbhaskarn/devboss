@@ -183,7 +183,7 @@ export const verifyEmailController = async (req: Request, res: Response) => {
           email: email,
         },
       });
-      console.log({user})
+      console.log({ user });
       if (user) {
         await prisma.user.update({
           where: {
