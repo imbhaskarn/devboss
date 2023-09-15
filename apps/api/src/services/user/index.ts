@@ -21,7 +21,7 @@ export const createUser = async (
 };
 
 export const checkIfEmailExists = async (email: string) => {
-  return await prisma.user.findFirst({
+  return await prisma.user.findUnique({
     where: {
       email: email,
     },
