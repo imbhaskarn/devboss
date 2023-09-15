@@ -1,16 +1,16 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import { NextFunction, Request, Response } from 'express';
-import prisma from '@/prisma';
-import {
-  checkIfEmailExists,
-  checkIfUsernameExists,
-} from '@/services/user/userExists';
+import prisma from '../.prisma';
 
 import bcrypt from 'bcrypt';
-import { createUser } from '@/services/user/createUser';
 import jwt from 'jsonwebtoken';
-import { createBlogPost } from '@/services/blog/createPost';
+import { createBlogPost } from '../services/blog/createPost';
+import {
+  checkIfEmailExists,
+  createUser,
+  checkIfUsernameExists,
+} from '../services/user';
 
 export const createPostController = async (req: Request, res: Response) => {
   const { title, meta, description, status, content } = req.body;

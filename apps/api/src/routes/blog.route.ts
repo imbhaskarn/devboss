@@ -1,10 +1,9 @@
 import { Router } from 'express';
+import validator from '../middlewares/validators';
+import { userSignInController } from '../controllers/auth.controller';
 
-import { userSignInController } from '@/controllers/auth.controller';
-import validator from '@/middlewares/validators';
-import { createBlogPost } from '@/services/blog/createPost';
-import { createPostController } from '@/controllers/blog.controller';
-import { NewPostSchema } from '@/middlewares/validators/schema/newPostSchema';
+import { createPostController } from '../controllers/blog.controller';
+import { NewPostSchema } from '../middlewares/validators/schema/newPostSchema';
 
 const blogRoute = Router();
 

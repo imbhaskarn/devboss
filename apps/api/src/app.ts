@@ -3,6 +3,7 @@ import authRoute from './routes/auth.route';
 import userRouter from './routes/user.route';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import blogRoute from './routes/blog.route';
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/user', blogRoute);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
