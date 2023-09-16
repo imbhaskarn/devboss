@@ -1,0 +1,205 @@
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <style>
+    /* Reset some default styles */
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul,
+    li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Define custom styles */
+    .app {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      width: max-content;
+      height: max-content;
+      background-color: rgb(242, 242, 253);
+      padding: 8px;
+    }
+
+    .mail__wrapper {
+      max-width: 28rem;
+      margin: 0 auto;
+    }
+
+    .mail__content {
+      background-color: #fff;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .content__header {
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .content__header .text-red {
+      color: red;
+      font-weight: bold;
+    }
+
+    .content__header h1 {
+      font-size: 1.875rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content__body {
+      padding-top: 1.5rem;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .content__body p {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .content__body button {
+      background-color: #007bff;
+      color: #fff;
+      font-size: 1rem;
+      letter-spacing: 0.1rem;
+      border: none;
+      border-radius: 0.25rem;
+      width: 100%;
+      margin-top: 1rem;
+      padding: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .content__body button a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .content__body button:hover {
+      background-color: #0056b3;
+    }
+
+    .content__body .text-sm {
+      font-size: 0.875rem;
+    }
+
+    .content__footer {
+      text-align: center;
+      color: #333;
+      margin-top: 2rem;
+    }
+
+    .content__footer h3 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .mail__meta {
+      text-align: center;
+      font-size: 0.875rem;
+      color: #333;
+      margin-top: 2rem;
+    }
+
+    .meta__social {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .meta__social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      background-color: #000;
+      color: #fff;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      text-decoration: none;
+    }
+
+    .meta__help {
+      margin-top: 1rem;
+    }
+
+    .meta__help p {
+      line-height: 1.5;
+    }
+
+    .meta__help a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+  </style>
+  <link href='https://use.fontawesome.com/releases/v5.0.4/css/all.css' rel='stylesheet'>
+  <title>Email Verification</title>
+</head>
+
+<body>
+  <div class='app font-sans min-w-screen min-h-screen bg-grey-lighter py-8 px-4'>
+    <div class='mail__wrapper max-w-md mx-auto'>
+      <div class='mail__content bg-white p-8 shadow-md'>
+        <div class='content__header text-center tracking-wide border-b'>
+          <div class='text-red text-sm font-bold'>devboss.io</div>
+          <h1 class='text-3xl h-48 flex items-center justify-center'>Email Confirmation</h1>
+        </div>
+        <div class='content__body py-8 border-b'>
+          <p>
+            Hey <%=name %>,<br /><br />It looks like you just signed up for The App, that’s awesome!
+              Can we ask you for email confirmation? Just click the button below.
+          </p>
+          <button>
+            <a href=<%=url %> target='_blank' rel='noopener noreferrer' class='underline-ns'>
+              CONFIRM EMAIL ADDRESS
+            </a>
+          </button>
+          <p class='text-sm'>
+            Keep Rockin'!<br />
+            Your The App team
+          </p>
+        </div>
+        <div class='content__footer mt-8 text-center text-grey-darker'>
+          <h3 class='text-base sm:text-lg mb-4'>Thanks for using The App!</h3>
+          <p>www.devboss.io</p>
+        </div>
+      </div>
+      <div class='mail__meta text-center text-sm text-grey-darker mt-8'>
+        <div class='meta__social flex justify-center my-4'>
+          <a href='#'
+            class='flex items-center justify-center mr-4 bg-black text-white rounded-full w-8 h-8 no-underline'>
+            <i class='fab fa-facebook-f'></i>
+          </a>
+          <a href='#'
+            class='flex items-center justify-center mr-4 bg-black text-white rounded-full w-8 h-8 no-underline'>
+            <i class='fab fa-instagram'></i>
+          </a>
+          <a href='#' class='flex items-center justify-center bg-black text-white rounded-full w-8 h-8 no-underline'>
+            <i class='fab fa-twitter'></i>
+          </a>
+        </div>
+        <div class='meta__help'>
+          <p class='leading-loose'>
+            Questions or concerns? <a href='#' class='text-grey-darkest'>help@theapp.io</a><br />
+            Want to quit getting updates? <a href='#' class='text-grey-darkest'>Unsubscribe</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
