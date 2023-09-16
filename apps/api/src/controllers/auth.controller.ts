@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+import crypto from 'crypto';
 dotenv.config();
 import { NextFunction, Request, Response } from 'express';
 import prisma from '../.prisma';
@@ -10,6 +11,9 @@ import {
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import Handlebars from 'handlebars';
+import redis from '../redis';
+import sendMail from '../utils/mailing';
 
 export const userSignUpController = async (
   req: Request,
@@ -54,16 +58,30 @@ export const userSignUpController = async (
         expiresIn: '1d', //
       }
     );
+    const verificationToken = crypto.randomBytes(64).toString('hex');
     if (newUser) {
+      const emailTemplate = Handlebars.compile(
+        '../views/email-verification.hbs'
+      );
+      const emailHtml = emailTemplate({
+        username: newUser.username,
+        url: `http://localhost:5000/api/v1/auth/verify-email?token=${verificationToken}&email=${newUser.email}}`,
+      });
+      //send email
+      redis.setex(newUser.email, 60 * 60, accessToken);
+
+      sendMail(newUser.email, 'Verify your email', emailHtml);
+
       return res.status(201).json({
         result: 'success',
-        message: 'Signup Successfull.',
+        message: 'Check your email to verify your account.',
         data: {
           accessToken,
           user: {
             id: newUser.id,
             email: newUser.email,
             username: newUser.username,
+            isVerified: newUser.isVerified,
           },
         },
       });
@@ -151,5 +169,45 @@ export const userSignInController = async (req: Request, res: Response) => {
       status: 'error',
       message: 'An internal server error occurred.',
     });
+  }
+};
+
+export const verifyEmailController = async (req: Request, res: Response) => {
+  try {
+    const { token, email }: any = req.query;
+    const accessToken = await redis.get(email);
+    console.log(accessToken, 'token');
+    if (token === accessToken) {
+      const user = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
+      console.log({ user });
+      if (user) {
+        await prisma.user.update({
+          where: {
+            email: email,
+          },
+          data: {
+            isVerified: true,
+          },
+        });
+        return res.status(200).json({
+          result: 'success',
+          message: 'Email verified successfully.',
+          data: {
+            user: {
+              id: user.id,
+              email: user.email,
+              username: user.username,
+              isVerified: user.isVerified,
+            },
+          },
+        });
+      }
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
