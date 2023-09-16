@@ -20,6 +20,8 @@ const swaggerSpec = swaggerJSDoc(swaggerOptions);
 const app = express();
 
 app.get('/status', (req, res) => {
+  let name = 'bhaskar';
+  console.log(name + ' is here');
   return res.status(200).json({
     status: 'OK',
     uptime: process.uptime(),
