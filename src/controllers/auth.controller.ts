@@ -66,6 +66,7 @@ export const userSignUpController = async (
         __dirname,
         '../templates/email-verification.ejs'
       );
+      console.log(templatePath, 'templatePath');
       const html = await ejs.renderFile(templatePath, {
         name: newUser.username,
         url: `http://localhost:5000/api/v1/auth/verify-email?token=${verificationToken}&email=${newUser.email}`,
@@ -91,7 +92,8 @@ export const userSignUpController = async (
       });
     }
   } catch (e) {
-    next(e);
+    console.log('Error:\n', e instanceof Error);
+    // next(e);
   }
 };
 
