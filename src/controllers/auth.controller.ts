@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv';
 import crypto from 'crypto';
+import { User } from '@prisma/client';
 dotenv.config();
 import { NextFunction, Request, Response } from 'express';
 import prisma from '../.prisma';
@@ -48,6 +49,16 @@ export const userSignUpController = async (
 
     // Create a new user in the database with the hashed password
     const newUser = await createUser(email, username, hashedPassword);
+    const refreshToken = jwt.sign(
+      {
+        id: newUser.id,
+        username: newUser.username,
+        email: newUser.email,
+        profileImage: newUser.profileImage,
+      },
+      process.env.SECRET as string,
+      { expiresIn: '7d' }
+    );
     const accessToken = jwt.sign(
       {
         id: newUser.id,
@@ -57,7 +68,7 @@ export const userSignUpController = async (
       },
       process.env.SECRET as string,
       {
-        expiresIn: '1d', //
+        expiresIn: '5min', //
       }
     );
     const verificationToken = crypto.randomBytes(64).toString('hex');
@@ -69,7 +80,7 @@ export const userSignUpController = async (
       console.log(templatePath, 'templatePath');
       const html = await ejs.renderFile(templatePath, {
         name: newUser.username,
-        url: `http://localhost:5000/api/v1/auth/verify-email?token=${verificationToken}&email=${newUser.email}`,
+        url: `${process.env.API_URL}/api/v1/auth/verify-email?token=${verificationToken}&email=${newUser.email}`,
       });
 
       //send email
@@ -82,6 +93,7 @@ export const userSignUpController = async (
         message: 'Check your email to verify your account.',
         data: {
           accessToken,
+          refreshToken,
           user: {
             id: newUser.id,
             email: newUser.email,
@@ -129,6 +141,12 @@ export const userSignInController = async (req: Request, res: Response) => {
         message: 'Invalid credentials.',
       });
     }
+    //generate jwt refresh token
+    const refreshToken = jwt.sign(
+      { id: user.id },
+      process.env.SECRET as string,
+      { expiresIn: '7d' }
+    );
     //generate jwt access token
     const accessToken = jwt.sign(
       {
@@ -153,8 +171,6 @@ export const userSignInController = async (req: Request, res: Response) => {
           id: user.id,
           email: user.email,
           username: user.username,
-
-          // Other user fields you want to include
           firstName: user.firstName,
           lastName: user.lastName,
           dateOfBirth: user.dateOfBirth,
@@ -213,6 +229,125 @@ export const verifyEmailController = async (req: Request, res: Response) => {
           },
         });
       }
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const refreshTokenController = async (req: Request, res: Response) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      return res.status(403).json({
+        result: 'error',
+        message: 'Access denied, token missing!',
+      });
+    }
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.body.id,
+      },
+    });
+    if (!user) {
+      return res.status(403).json({
+        result: 'error',
+        message: 'User not found',
+      });
+    }
+    const accessToken = jwt.sign(
+      {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        profileImage: user.profileImage,
+      },
+      process.env.SECRET as string,
+      {
+        expiresIn: '15min', //
+      }
+    );
+    redis.setex(user.email, 60 * 60, accessToken);
+    return res.status(200).json({
+      result: 'success',
+      message: 'Token refreshed successfully.',
+      data: {
+        accessToken,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    const fpToken = crypto.randomBytes(64).toString('hex');
+
+    if (!email) {
+      return res.status(400).json({
+        result: 'error',
+        message: 'User not found.',
+      });
+    }
+
+    redis.setex(`${email} + fp` as string, 60 * 60, fpToken);
+    const passwordResetLink = `${process.env.API_URL}/api/v1/auth/verify-forgot-password?token=${fpToken}&email=${email}`;
+    const templatePath = path.join(
+      __dirname,
+      '../templates/forgot-password.ejs'
+    );
+    const html = await ejs.renderFile(templatePath, {
+      name: email,
+      url: passwordResetLink,
+    });
+    sendMail(email, 'Password reset link', html);
+    return res.status(200).json({
+      result: 'success',
+      message: 'Password reset link sent successfully.',
+      data: {},
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const forgotPasswordVerify = async (req: Request, res: Response) => {
+  try {
+    const { token, email } = req.query as { token?: string; email?: string };
+    if (!token || !email) {
+      return res.status(400).json({
+        result: 'error',
+        message: 'Invalid token or email',
+      });
+    }
+    const fpToken = await redis.get(`${email} + fp` as string);
+    if (token === fpToken) {
+      const user = prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      }) as unknown as User;
+      console.log(fpToken, 'fpToken');
+      const accessToken = jwt.sign(
+        {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          profileImage: user.profileImage,
+        },
+        process.env.SECRET as string,
+        {
+          expiresIn: '15min', //
+        }
+      );
+
+      return res.status(200).json({
+        result: 'success',
+        message: 'Password reset link sent successfully.',
+        data: { accessToken },
+      });
     }
   } catch (e) {
     console.log(e);

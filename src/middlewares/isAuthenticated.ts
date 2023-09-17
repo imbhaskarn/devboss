@@ -28,7 +28,7 @@ const isAuthenticated = (
       res.status(401).json({ error: 'Invalid token!' });
       return;
     }
-
+    
     req.user = decoded as JwtPayload; // Attach decoded payload to request object
     next(); // Move to next middleware or route handler
   });
