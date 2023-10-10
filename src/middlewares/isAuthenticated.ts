@@ -14,7 +14,7 @@ const isAuthenticated = (
 ): void => {
   // Get the token from the header
   const bearerToken = req.headers['authorization'];
-
+  console.log(bearerToken)
   if (!bearerToken) {
     res.status(401).json({ error: 'Authentication required!' });
     return;

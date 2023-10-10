@@ -68,7 +68,7 @@ export const userSignUpController = async (
       },
       process.env.SECRET as string,
       {
-        expiresIn: '5min', //
+        expiresIn: 60, //
       }
     );
     const verificationToken = crypto.randomBytes(64).toString('hex');
@@ -167,6 +167,7 @@ export const userSignInController = async (req: Request, res: Response) => {
       message: 'Login successfull.',
       data: {
         accessToken,
+        refreshToken,
         user: {
           id: user.id,
           email: user.email,
@@ -238,15 +239,21 @@ export const verifyEmailController = async (req: Request, res: Response) => {
 export const refreshTokenController = async (req: Request, res: Response) => {
   try {
     const { refreshToken } = req.body;
+
     if (!refreshToken) {
       return res.status(403).json({
         result: 'error',
         message: 'Access denied, token missing!',
       });
     }
+    console.log(refreshToken, 'refreshToken');
+    const { id } = jwt.verify(
+      refreshToken,
+      process.env.SECRET as string
+    ) as any;
     const user = await prisma.user.findUnique({
       where: {
-        id: req.body.id,
+        id,
       },
     });
     if (!user) {

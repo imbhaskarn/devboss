@@ -4,7 +4,9 @@ import userRouter from './routes/user.route';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import blogRoute from './routes/blog.route';
-
+import cors from 'cors';
+const app = express();
+app.use(cors());
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
@@ -17,14 +19,21 @@ const swaggerOptions = {
   apis: ['.src/routes/*.ts'], // Specify your route files here
 };
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
-const app = express();
 
-app.get('/status', (req, res) => {
+app.get('/api/v1/status', (req, res) => {
   return res.status(200).json({
     status: 'OK',
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
   });
+});
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
 });
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.json());
@@ -32,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/user', userRouter);
-app.use('/api/v1/user', blogRoute);
+app.use('/api/v1/blog', blogRoute);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);

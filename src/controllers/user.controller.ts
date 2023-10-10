@@ -18,7 +18,7 @@ export const userProfileController = async (
   next: NextFunction
 ) => {
   try {
-    const { username } = req.body;
+    const { username } = req.params;
     const user = await GetUser(username);
     if (!user) {
       return res.status(404).json({
