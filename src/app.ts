@@ -3,22 +3,70 @@ import authRoute from './routes/auth.route';
 import userRouter from './routes/user.route';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import blogRoute from './routes/blog.route';
+
+import articleRouter from './routes/article.route';
 import cors from 'cors';
 const app = express();
 app.use(cors());
 const swaggerOptions = {
   swaggerDefinition: {
+    openapi: '3.0.0',
     info: {
-      title: 'Your API',
+      title: 'Devboss API Doc ',
       version: '1.0.0',
       description: 'API documentation for Your Node.js TypeScript Project',
     },
     basePath: '/',
   },
-  apis: ['.src/routes/*.ts'], // Specify your route files here
+  // Specify your route files here
 };
-const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+const swaggerSpec = swaggerJSDoc({
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Your API Title',
+      description: 'Description of your API',
+      version: '1.0.0',
+    },
+  },
+  servers: [
+    {
+      url: 'https://api.example.com/v1',
+    },
+  ],
+  apis: ['.src/routes/*.ts'],
+  paths: {
+    '/users': {
+      get: {
+        summary: 'Get a list of users',
+        responses: {
+          '200': {
+            description: 'A list of users',
+          },
+        },
+      },
+      post: {
+        summary: 'Create a new user',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+              
+              },
+            },
+          },
+        },
+        responses: {
+          '201': {
+            description: 'User created successfully',
+          },
+        },
+      },
+    },
+  },
+});
 
 app.get('/api/v1/status', (req, res) => {
   return res.status(200).json({
@@ -41,7 +89,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/user', userRouter);
-app.use('/api/v1/blog', blogRoute);
+
+app.use('/api/v1/blog', articleRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
