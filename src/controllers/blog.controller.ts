@@ -100,7 +100,7 @@ export const updateBlogController = async (req: Request, res: Response) => {
         email: user.email,
         profileImage: user.profileImage,
       },
-      process.env.SECRET as string,
+      process.env.JWT_SECRET as string,
       {
         expiresIn: '1d', //
       }

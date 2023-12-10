@@ -11,9 +11,9 @@ datasource db {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  email         String    @unique
-  username      String    @unique
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  username      String          @unique
   firstName     String?
   lastName      String?
   password      String
@@ -23,44 +23,92 @@ model User {
   location      String?
   website       String?
   phoneNumber   String?
-  isVerified    Boolean   @default(false)
-  isBlocked     Boolean   @default(false)
-  isDeactivated Boolean   @default(false)
-  isDeleted     Boolean   @default(false)
-  isAdmin       Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  lastLogin     DateTime  @default(now())
+  isVerified    Boolean         @default(false)
+  isBlocked     Boolean         @default(false)
+  isDeactivated Boolean         @default(false)
+  isDeleted     Boolean         @default(false)
+  isAdmin       Boolean         @default(false)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  lastLogin     DateTime        @default(now())
   posts         Post[]
-  comments      Comment[]
-  // followers     User[]    @relation("Followers", references: [id], map: "userFollowers")
-  // following     User[]    @relation("Following", references: [id], map: "userFollowing")
+  Like          Like[]
+  followers     Follower[]      @relation("user_followers")
+  following     Follower[]      @relation("user_following")
+  comments      PostComments[]  @relation("user_comment")
+  likes         UserPostLikes[] @relation("post_like")
 }
+
 enum Status {
   draft
   published
 }
+
 model Post {
-  id        Int       @id @default(autoincrement())
-  title     String
-  content   String
-  meta      String
+  id          Int             @id @default(autoincrement())
+  title       String
+  content     String
+  meta        String
   description String
-  status    Status  @default(draft)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  author    User      @relation(fields: [authorId], references: [id], map: "postAuthor")
-  authorId  Int
-  comments  Comment[]
+  status      Status          @default(draft)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  author      User            @relation(fields: [authorId], references: [id], map: "postAuthor")
+  authorId    Int
+  category    Category[]      @relation("post_category")
+  comment     PostComments[]  @relation("postcomments_post")
+  likes       UserPostLikes[] @relation("post_like")
+}
+
+model Follower {
+  id         Int  @id @default(autoincrement())
+  follower   User @relation("user_followers", fields: [followerId], references: [id])
+  followerId Int
+  user       User @relation("user_following", fields: [userId], references: [id])
+  userId     Int
+}
+
+model Category {
+  id     Int    @id @default(autoincrement())
+  name   String
+  post   Post   @relation("post_category", fields: [postId], references: [id])
+  postId Int
+}
+
+model Like {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
+  id        Int            @id @default(autoincrement())
   content   String
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  comments  PostComments[] @relation("postcomments_comments")
+}
+
+model PostComments {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  author    User     @relation(fields: [authorId], references: [id], map: "commentAuthor")
-  authorId  Int
-  post      Post     @relation(fields: [postId], references: [id], map: "commentPost")
+  Post      Post     @relation("postcomments_post", fields: [postId], references: [id])
   postId    Int
+  comment   Comment  @relation("postcomments_comments", fields: [commentId], references: [id])
+  commentId Int
+  User      User     @relation("user_comment", fields: [userId], references: [id])
+  userId    Int
+
+  @@id([postId, userId])
+}
+
+model UserPostLikes {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Post     @relation("post_like", fields: [postId], references: [id])
+  postId    Int
+  user      User     @relation("post_like", fields: [userId], references: [id])
+  userId    Int
+  isLike    Boolean
 }

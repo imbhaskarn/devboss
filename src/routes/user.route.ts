@@ -6,7 +6,7 @@ import isAuthenticated from '../middlewares/isAuthenticated';
 const userRouter = Router();
 
 userRouter.get(
-  '/profile',
+  '/profile/:username',
   isAuthenticated,
   //   validator.Username,
   userProfileController

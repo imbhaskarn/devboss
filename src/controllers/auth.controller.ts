@@ -56,7 +56,7 @@ export const userSignUpController = async (
         email: newUser.email,
         profileImage: newUser.profileImage,
       },
-      process.env.SECRET as string,
+      process.env.JWT_SECRET as string,
       { expiresIn: '7d' }
     );
     const accessToken = jwt.sign(
@@ -66,9 +66,9 @@ export const userSignUpController = async (
         email: newUser.email,
         profileImage: newUser.profileImage,
       },
-      process.env.SECRET as string,
+      process.env.JWT_SECRET as string,
       {
-        expiresIn: '5min', //
+        expiresIn: 60, //
       }
     );
     const verificationToken = crypto.randomBytes(64).toString('hex');
@@ -144,7 +144,7 @@ export const userSignInController = async (req: Request, res: Response) => {
     //generate jwt refresh token
     const refreshToken = jwt.sign(
       { id: user.id },
-      process.env.SECRET as string,
+      process.env.JWT_SECRET as string,
       { expiresIn: '7d' }
     );
     //generate jwt access token
@@ -155,7 +155,7 @@ export const userSignInController = async (req: Request, res: Response) => {
         email: user.email,
         profileImage: user.profileImage,
       },
-      process.env.SECRET as string,
+      process.env.JWT_SECRET as string,
       {
         expiresIn: '1d', //
       }
@@ -167,6 +167,7 @@ export const userSignInController = async (req: Request, res: Response) => {
       message: 'Login successfull.',
       data: {
         accessToken,
+        refreshToken,
         user: {
           id: user.id,
           email: user.email,
@@ -238,15 +239,20 @@ export const verifyEmailController = async (req: Request, res: Response) => {
 export const refreshTokenController = async (req: Request, res: Response) => {
   try {
     const { refreshToken } = req.body;
+
     if (!refreshToken) {
       return res.status(403).json({
         result: 'error',
         message: 'Access denied, token missing!',
       });
     }
+    const { id } = jwt.verify(
+      refreshToken,
+      process.env.JWT_SECRET as string
+    ) as any;
     const user = await prisma.user.findUnique({
       where: {
-        id: req.body.id,
+        id,
       },
     });
     if (!user) {
@@ -262,11 +268,12 @@ export const refreshTokenController = async (req: Request, res: Response) => {
         email: user.email,
         profileImage: user.profileImage,
       },
-      process.env.SECRET as string,
+      process.env.JWT_SECRET as string,
       {
         expiresIn: '15min', //
       }
     );
+    console.log(accessToken, 'accessToken');
     redis.setex(user.email, 60 * 60, accessToken);
     return res.status(200).json({
       result: 'success',
@@ -337,7 +344,7 @@ export const forgotPasswordVerify = async (req: Request, res: Response) => {
           email: user.email,
           profileImage: user.profileImage,
         },
-        process.env.SECRET as string,
+        process.env.JWT_SECRET as string,
         {
           expiresIn: '15min', //
         }
