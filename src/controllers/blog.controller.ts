@@ -5,17 +5,38 @@ import prisma from '../.prisma';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { createBlogPost } from '../services/blog/createPost';
-import {
-  checkIfEmailExists,
-  createUser,
-  checkIfUsernameExists,
-} from '../services/user';
+import { user } from '@types';
 
-export const createPostController = async (req: Request, res: Response) => {
-  const { title, meta, description, status, content } = req.body;
+interface ExtendedRequest extends Request {
+  user: user
+}
 
-  createBlogPost({ title, meta, description, status, content, authorId: 1 });
+export const createPostController = async (
+  req: ExtendedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId: number = req.user.id;
+    const { title, meta, description, status, content } = req.body;
+    const post = await prisma.post.create({
+      data: {
+        title,
+        meta,
+        description,
+        status,
+        content,
+        author: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+    return res.send({ result: 'success', data: post });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const getBlogController = async (
@@ -24,37 +45,16 @@ export const getBlogController = async (
   next: NextFunction
 ) => {
   try {
-    const { username, email, password } = req.body;
-
-    // Check if a user with the provided email already exists
-    const userWithEmail = await checkIfEmailExists(email);
-    if (userWithEmail) {
-      return res.status(409).json({
-        result: 'error',
-        message: 'Email is already registered.',
-      });
-    }
-
-    // Check if a user with the provided username already exists
-    const userWithUsername = await checkIfUsernameExists(username);
-    if (!userWithUsername) {
-      return res.status(409).json({
-        result: 'error',
-        message: 'Username is already in use.',
-      });
-    }
-
-    // Hash the provided password before storing it in the database
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create a new user in the database with the hashed password
-    const newUser = await createUser(email, username, hashedPassword);
-    if (newUser) {
-      return res.json({
-        result: 'success',
-        message: 'User created successfully!',
-      });
-    }
+    const postId = parseInt(req.params.id);
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+    return res.status(200).send({
+      result: 'success',
+      data: post,
+    });
   } catch (e) {
     next(e);
   }
