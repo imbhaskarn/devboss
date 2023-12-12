@@ -1,10 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-
-
-
+import { user } from '@types';
 interface ExtendedRequest extends Request {
-  user?: JwtPayload;
+  user: user
 }
 
 const isAuthenticated = (
@@ -23,14 +21,14 @@ const isAuthenticated = (
   const token = bearerToken.split(' ')[1]; // Extract token from "Bearer <token>"
 
   // Verify the token
-  jwt.verify(token, process.env.JWT_SECRET as string, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET as string, (err, decoded : user) => {
     if (err) {
       console.log(err);
       res.status(401).json({ error: 'Invalid token!' });
       return;
     }
 
-    req.user = decoded as JwtPayload; // Attach decoded payload to request object
+    req.user = decoded
     next(); // Move to next middleware or route handler
   });
 };

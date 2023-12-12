@@ -2,14 +2,20 @@ import { Router } from 'express';
 import validator from '../middlewares/validators';
 import { userSignInController } from '../controllers/auth.controller';
 
-import { createPostController } from '../controllers/blog.controller';
 import { NewPostSchema } from '../middlewares/validators/schema/newPostSchema';
+import { createPostController } from '../controllers/blog.controller';
+import isAuthenticated from '../middlewares/isAuthenticated';
 
-const blogRoute = Router();
+const articleRouter = Router();
 
-blogRoute.post('/', validator(NewPostSchema), createPostController);
-blogRoute.get('/:id', userSignInController);
-blogRoute.put('/:id', userSignInController);
-blogRoute.delete('/:id', userSignInController);
+articleRouter.post(
+  '/',
+  isAuthenticated,
+  validator(NewPostSchema),
+  createPostController
+);
+articleRouter.get('/:id', isAuthenticated);
+articleRouter.put('/:id', isAuthenticated, userSignInController);
+articleRouter.delete('/:id', isAuthenticated, userSignInController);
 
-export default blogRoute;
+export default articleRouter;

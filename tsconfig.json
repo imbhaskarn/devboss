@@ -2,24 +2,32 @@
   "compilerOptions": {
     "target": "ESNext", // Adjust to the Node.js version you're targeting
     "module": "CommonJS",
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
     "sourceMap": true,
     "types": [
-      // ... other types
       "jest",
       "node"
     ],
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["/src/*"]
+      "@/*": [
+        "/src/*"
+      ]
     },
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types"
+    ]
   },
-  "include": ["src/**/*.ts", "**/__tests__/"],
+  "include": [
+    "src/**/*.ts",
+    "**/__tests__/",
+    "src/typings/express/index.d.ts"
+  ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts",
