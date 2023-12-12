@@ -5,12 +5,6 @@ import prisma from '../.prisma';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import {
-  GetUser,
-  createUser,
-  checkIfEmailExists,
-  checkIfUsernameExists,
-} from '../services/user/';
 
 export const userProfileController = async (
   req: Request,
@@ -19,7 +13,11 @@ export const userProfileController = async (
 ) => {
   try {
     const { username } = req.params;
-    const user = await GetUser(username);
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
     if (!user) {
       return res.status(404).json({
         result: 'error',
@@ -44,7 +42,11 @@ export const updateProfileController = async (
 ) => {
   try {
     const { username } = req.body;
-    const user = await GetUser(username);
+    const user = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+    });
     if (!user) {
       return res.status(404).json({
         result: 'error',

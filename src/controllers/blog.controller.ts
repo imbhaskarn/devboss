@@ -5,11 +5,12 @@ import prisma from '../.prisma';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { user } from '@types';
-
+import { user } from 'typings/custom';
 interface ExtendedRequest extends Request {
-  user: user
+  user: user;
 }
+
+
 
 export const createPostController = async (
   req: ExtendedRequest,
@@ -33,7 +34,7 @@ export const createPostController = async (
         },
       },
     });
-    return res.send({ result: 'success', data: post });
+    return res.status(201).send({ result: 'success', data: post });
   } catch (error) {
     next(error);
   }
