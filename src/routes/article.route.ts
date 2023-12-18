@@ -3,7 +3,7 @@ import validator from '../middlewares/validators';
 import { userSignInController } from '../controllers/auth.controller';
 
 import { NewPostSchema } from '../middlewares/validators/schema/newPostSchema';
-import { createPostController } from '../controllers/blog.controller';
+import { createArticleController } from '../controllers/blog.controller';
 import isAuthenticated from '../middlewares/isAuthenticated';
 
 const articleRouter = Router();
@@ -12,7 +12,7 @@ articleRouter.post(
   '/',
   isAuthenticated,
   validator(NewPostSchema),
-  createPostController
+  createArticleController
 );
 articleRouter.get('/:id', isAuthenticated);
 articleRouter.put('/:id', isAuthenticated, userSignInController);

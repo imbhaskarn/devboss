@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { user } from '@types';
+import { user } from 'typings/custom';
 interface ExtendedRequest extends Request {
   user: user
 }

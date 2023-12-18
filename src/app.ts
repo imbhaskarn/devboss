@@ -5,6 +5,7 @@ import userRouter from './routes/user.route';
 
 import articleRouter from './routes/article.route';
 import cors from 'cors';
+
 const app = express();
 app.use(cors());
 const requestLogger = (req: Request, res: Response, next: NextFunction) => {

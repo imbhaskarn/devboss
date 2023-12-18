@@ -31,12 +31,12 @@ model User {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   lastLogin     DateTime        @default(now())
-  posts         Post[]
+  articles         Article[]
   Like          Like[]
   followers     Follower[]      @relation("user_followers")
   following     Follower[]      @relation("user_following")
-  comments      PostComments[]  @relation("user_comment")
-  likes         UserPostLikes[] @relation("post_like")
+  comments      ArticleComments[]  @relation("user_comment")
+  likes         UserArticleLikes[] @relation("article_like")
 }
 
 enum Status {
@@ -44,7 +44,7 @@ enum Status {
   published
 }
 
-model Post {
+model Article {
   id          Int             @id @default(autoincrement())
   title       String
   content     String
@@ -53,11 +53,11 @@ model Post {
   status      Status          @default(draft)
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
-  author      User            @relation(fields: [authorId], references: [id], map: "postAuthor")
+  author      User            @relation(fields: [authorId], references: [id], map: "articleAuthor")
   authorId    Int
-  category    Category[]      @relation("post_category")
-  comment     PostComments[]  @relation("postcomments_post")
-  likes       UserPostLikes[] @relation("post_like")
+  category    Category[]      @relation("article_category")
+  comments     ArticleComments[]  @relation("articlecomments_article")
+  likes       UserArticleLikes[] @relation("article_like")
 }
 
 model Follower {
@@ -71,8 +71,8 @@ model Follower {
 model Category {
   id     Int    @id @default(autoincrement())
   name   String
-  post   Post   @relation("post_category", fields: [postId], references: [id])
-  postId Int
+  article   Article   @relation("article_category", fields: [articleId], references: [id])
+  articleId Int
 }
 
 model Like {
@@ -86,29 +86,29 @@ model Comment {
   content   String
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
-  comments  PostComments[] @relation("postcomments_comments")
+  articles  ArticleComments[] @relation("articlecomments_comments")
 }
 
-model PostComments {
+model ArticleComments {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Post      Post     @relation("postcomments_post", fields: [postId], references: [id])
-  postId    Int
-  comment   Comment  @relation("postcomments_comments", fields: [commentId], references: [id])
+  Article      Article     @relation("articlecomments_article", fields: [articleId], references: [id])
+  articleId    Int
+  comment   Comment  @relation("articlecomments_comments", fields: [commentId], references: [id])
   commentId Int
   User      User     @relation("user_comment", fields: [userId], references: [id])
   userId    Int
 
-  @@id([postId, userId])
+  @@id([articleId, userId])
 }
 
-model UserPostLikes {
+model UserArticleLikes {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  post      Post     @relation("post_like", fields: [postId], references: [id])
-  postId    Int
-  user      User     @relation("post_like", fields: [userId], references: [id])
+  article      Article     @relation("article_like", fields: [articleId], references: [id])
+  articleId    Int
+  user      User     @relation("article_like", fields: [userId], references: [id])
   userId    Int
   isLike    Boolean
 }

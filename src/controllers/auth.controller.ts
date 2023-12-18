@@ -6,17 +6,15 @@ import { NextFunction, Request, Response } from 'express';
 import prisma from '../.prisma';
 import ejs from 'ejs';
 import path from 'path';
-import {
-  checkIfEmailExists,
-  checkIfUsernameExists,
-  createUser,
-} from '../services/user/';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import Handlebars from 'handlebars';
 import redis from '../redis';
 import sendMail from '../utils/mailing';
+import { user } from 'typings/custom';
+interface ExtendedRequest extends Request {
+  user: user;
+}
 
 export const userSignUpController = async (
   req: Request,
@@ -27,8 +25,12 @@ export const userSignUpController = async (
     const { username, email, password } = req.body;
 
     // Check if a user with the provided email already exists
-    const userWithEmail = await checkIfEmailExists(email);
-    if (userWithEmail) {
+    const findExistingUserWithEmail = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    if (findExistingUserWithEmail) {
       return res.status(409).json({
         result: 'error',
         message: 'Email is already registered.',
@@ -36,8 +38,12 @@ export const userSignUpController = async (
     }
 
     // Check if a user with the provided username already exists
-    const userWithUsername = await checkIfUsernameExists(username);
-    if (userWithUsername) {
+    const findExistingUserWithUsername = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+    });
+    if (findExistingUserWithUsername) {
       return res.status(409).json({
         result: 'error',
         message: 'Username is already in use.',
@@ -48,7 +54,13 @@ export const userSignUpController = async (
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user in the database with the hashed password
-    const newUser = await createUser(email, username, hashedPassword);
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        username,
+        password: hashedPassword,
+      },
+    });
     const refreshToken = jwt.sign(
       {
         id: newUser.id,
@@ -83,11 +95,9 @@ export const userSignUpController = async (
         url: `${process.env.API_URL}/api/v1/auth/verify-email?token=${verificationToken}&email=${newUser.email}`,
       });
 
-      //send email
-      redis.setex(newUser.email, 60 * 60, accessToken);
-
+      redis.setex(newUser.email, 60 * 60 * 24 * 7, accessToken);
+      redis.setex(`vt${newUser.email}`, 60 * 10, verificationToken);
       sendMail(newUser.email, 'Verify your email', html);
-
       return res.status(201).json({
         result: 'success',
         message: 'Check your email to verify your account.',
@@ -116,10 +126,7 @@ export const userSignInController = async (req: Request, res: Response) => {
     // Find the user by username
     const user = await prisma.user.findFirst({
       where: {
-        OR: [
-          { username: username },
-          { email: email }, // Note: This is not recommended for security reasons
-        ],
+        username: email,
       },
     });
 
@@ -154,6 +161,7 @@ export const userSignInController = async (req: Request, res: Response) => {
         username: user.username,
         email: user.email,
         profileImage: user.profileImage,
+        isVerified: user.isVerified,
       },
       process.env.JWT_SECRET as string,
       {
@@ -171,7 +179,6 @@ export const userSignInController = async (req: Request, res: Response) => {
         user: {
           id: user.id,
           email: user.email,
-          username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
           dateOfBirth: user.dateOfBirth,
@@ -195,42 +202,38 @@ export const userSignInController = async (req: Request, res: Response) => {
   }
 };
 
-export const verifyEmailController = async (req: Request, res: Response) => {
+export const verifyEmailController = async (
+  req: ExtendedRequest,
+  res: Response
+) => {
   try {
     const { token, email }: any = req.query;
-    const accessToken = await redis.get(email);
-    console.log(accessToken, 'token');
-    if (token === accessToken) {
-      const user = await prisma.user.findUnique({
-        where: {
-          email: email,
-        },
+    if (!token || !email) {
+      return res.status(404).json({
+        result: 'failed',
+        message: 'Email not found',
       });
-      console.log({ user });
-      if (user) {
-        const updatedUser = await prisma.user.update({
-          where: {
-            email: email,
-          },
-          data: {
-            isVerified: true,
-          },
-        });
-        console.log(updatedUser, 'updatedUser');
-        return res.status(200).json({
-          result: 'success',
-          message: 'Email verified successfully.',
-          data: {
-            user: {
-              id: user.id,
-              email: user.email,
-              username: user.username,
-              isVerified: user.isVerified,
-            },
-          },
-        });
-      }
     }
+    const verificationToken = await redis.get(`vt${email}`);
+    if (verificationToken != token) {
+      return res.status(400).json({
+        result: 'failed',
+        message: 'Invalid or expired veritication link',
+      });
+    }
+    const verifiedUser = await prisma.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        isVerified: true,
+      },
+    });
+    console.log(verifiedUser);
+    return res.status(201).json({
+      result: 'success',
+      message: 'email verified successfully',
+    });
   } catch (e) {
     console.log(e);
   }
@@ -267,6 +270,7 @@ export const refreshTokenController = async (req: Request, res: Response) => {
         username: user.username,
         email: user.email,
         profileImage: user.profileImage,
+        isVerified: user.isVerified,
       },
       process.env.JWT_SECRET as string,
       {
