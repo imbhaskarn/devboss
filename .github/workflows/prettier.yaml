@@ -2,9 +2,8 @@ name: Format Check
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
+    branches: 
+      main
 
 jobs:
   format-check:
@@ -23,5 +22,5 @@ jobs:
         run: npm i -g prettier
 
       - name: Check formatting
-        run: npx prettier --check .
+        run: npm run formatter
 

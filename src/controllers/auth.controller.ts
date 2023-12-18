@@ -25,12 +25,12 @@ export const userSignUpController = async (
     const { username, email, password } = req.body;
 
     // Check if a user with the provided email already exists
-    const userWithEmail = await prisma.user.findUnique({
+    const findExistingUserWithEmail = await prisma.user.findUnique({
       where: {
         email: email,
       },
     });
-    if (userWithEmail) {
+    if (findExistingUserWithEmail) {
       return res.status(409).json({
         result: 'error',
         message: 'Email is already registered.',
@@ -38,12 +38,12 @@ export const userSignUpController = async (
     }
 
     // Check if a user with the provided username already exists
-    const userWithUsername = await prisma.user.findUnique({
+    const findExistingUserWithUsername = await prisma.user.findUnique({
       where: {
         username: username,
       },
     });
-    if (userWithUsername) {
+    if (findExistingUserWithUsername) {
       return res.status(409).json({
         result: 'error',
         message: 'Username is already in use.',
@@ -98,7 +98,6 @@ export const userSignUpController = async (
       redis.setex(newUser.email, 60 * 60 * 24 * 7, accessToken);
       redis.setex(`vt${newUser.email}`, 60 * 10, verificationToken);
       sendMail(newUser.email, 'Verify your email', html);
-
       return res.status(201).json({
         result: 'success',
         message: 'Check your email to verify your account.',
@@ -127,10 +126,7 @@ export const userSignInController = async (req: Request, res: Response) => {
     // Find the user by username
     const user = await prisma.user.findFirst({
       where: {
-        OR: [
-          { username: username },
-          { email: email }, // Note: This is not recommended for security reasons
-        ],
+        username: email,
       },
     });
 
@@ -183,7 +179,6 @@ export const userSignInController = async (req: Request, res: Response) => {
         user: {
           id: user.id,
           email: user.email,
-          username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
           dateOfBirth: user.dateOfBirth,
