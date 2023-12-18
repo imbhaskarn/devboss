@@ -10,9 +10,7 @@ interface ExtendedRequest extends Request {
   user: user;
 }
 
-
-
-export const createPostController = async (
+export const createArticleController = async (
   req: ExtendedRequest,
   res: Response,
   next: NextFunction
@@ -20,7 +18,7 @@ export const createPostController = async (
   try {
     const userId: number = req.user.id;
     const { title, meta, description, status, content } = req.body;
-    const post = await prisma.post.create({
+    const post = await prisma.article.create({
       data: {
         title,
         meta,
@@ -40,21 +38,26 @@ export const createPostController = async (
   }
 };
 
-export const getBlogController = async (
+export const getArticleController = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const postId = parseInt(req.params.id);
-    const post = await prisma.post.findUnique({
+    const articleId = parseInt(req.params.id);
+    const article = await prisma.article.findUnique({
       where: {
-        id: postId,
+        id: articleId,
+      },
+      include: {
+        comments: true,
+        author: true,
       },
     });
+    console.log(article);
     return res.status(200).send({
       result: 'success',
-      data: post,
+      data: article,
     });
   } catch (e) {
     next(e);
@@ -63,61 +66,10 @@ export const getBlogController = async (
 
 export const updateBlogController = async (req: Request, res: Response) => {
   const { email, username, password } = req.body;
-
   try {
-    // Find the user by username
-    const user = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { username: username },
-          { email: email }, // Note: This is not recommended for security reasons
-        ],
-      },
-    });
-
-    // If user doesn't exist
-    if (!user) {
-      return res.status(401).json({
-        status: 'error',
-        message: 'Invalid credentials.',
-      });
-    }
-
-    // Compare the provided password with the hashed password in the database
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    // If passwords don't match
-    if (!passwordMatch) {
-      return res.status(401).json({
-        status: 'error',
-        message: 'Invalid credentials.',
-      });
-    }
-    //generate jwt access token
-    const accessToken = jwt.sign(
-      {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        profileImage: user.profileImage,
-      },
-      process.env.JWT_SECRET as string,
-      {
-        expiresIn: '1d', //
-      }
-    );
-    // Successful login
-    return res.status(200).json({
-      status: 'success',
-      message: 'Login successfull.',
-      data: {
-        accessToken,
-        user: {
-          id: user.id,
-          email: user.email,
-          username: user.username,
-        },
-      },
+    return res.status(201).json({
+      result: 'success',
+      message: 'article updated successfully',
     });
   } catch (error) {
     console.error('Error:', error);
