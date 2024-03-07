@@ -12,6 +12,7 @@ import jwt from 'jsonwebtoken';
 import redis from '../redis';
 import sendMail from '../utils/mailing';
 import { user } from 'typings/custom';
+import { generateFromEmail } from 'unique-username-generator';
 interface ExtendedRequest extends Request {
   user: user;
 }
@@ -22,9 +23,8 @@ export const userSignUpController = async (
   next: NextFunction
 ) => {
   try {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
 
-    // Check if a user with the provided email already exists
     const findExistingUserWithEmail = await prisma.user.findUnique({
       where: {
         email: email,
@@ -37,23 +37,10 @@ export const userSignUpController = async (
       });
     }
 
-    // Check if a user with the provided username already exists
-    const findExistingUserWithUsername = await prisma.user.findUnique({
-      where: {
-        username: username,
-      },
-    });
-    if (findExistingUserWithUsername) {
-      return res.status(409).json({
-        result: 'error',
-        message: 'Username is already in use.',
-      });
-    }
+    const username = generateFromEmail(email, 3);
 
-    // Hash the provided password before storing it in the database
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new user in the database with the hashed password
     const newUser = await prisma.user.create({
       data: {
         email,
@@ -114,6 +101,7 @@ export const userSignUpController = async (
       });
     }
   } catch (e) {
+    console.log(e)
     console.log('Error:\n', e instanceof Error);
     // next(e);
   }

@@ -41,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/user', userRouter);
-app.use('/api/v1/blog', articleRouter);
+app.use('/api/v1/article', articleRouter);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);

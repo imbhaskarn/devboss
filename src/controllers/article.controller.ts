@@ -79,3 +79,42 @@ export const updateBlogController = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const coverStory = async (req: Request, res: Response) => {
+  try {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const coverStory = prisma.article.findFirst({
+      where: {
+        createdAt: {
+          gte: sevenDaysAgo,
+        },
+        likes: {
+          some: {
+            createdAt: {
+              gte: sevenDaysAgo,
+            },
+          },
+        },
+      },
+      orderBy: {
+        likes: {
+          _count: 'desc',
+        },
+      },
+      take: 1,
+    });
+    return res.status(200).json({
+      result: 'success',
+      data: {
+        article: coverStory,
+      },
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: 'An internal server error occurred.',
+    });
+  }
+};

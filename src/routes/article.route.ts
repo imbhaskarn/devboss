@@ -3,10 +3,15 @@ import validator from '../middlewares/validators';
 import { userSignInController } from '../controllers/auth.controller';
 
 import { NewPostSchema } from '../middlewares/validators/schema/newPostSchema';
-import { createArticleController } from '../controllers/blog.controller';
+import {
+  coverStory,
+  createArticleController,
+} from '../controllers/article.controller';
 import isAuthenticated from '../middlewares/isAuthenticated';
 
 const articleRouter = Router();
+
+articleRouter.get('/cover-story', coverStory);
 
 articleRouter.post(
   '/',
